@@ -38,6 +38,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            text-decoration: none;
         }
 
         .logo span {
@@ -106,31 +107,18 @@
             font-weight: bold;
         }
 
-        /* Hlavní fotka (Hero sekce) */
+        /* Hlavní fotka (Hero sekce) jako hlavička webu */
         .hero {
             position: relative;
-            height: 60vh;
-            min-height: 400px;
-            /* Nahraď tímto odkazem vlastní fotku auta/Domažlic */
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1549880181-56a44cf8a4a1?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            height: 42vw; /* Dynamická výška přesně podle poměru stran obrázku */
+            min-height: 380px;
+            /* Propojení na lokální obrázek ve stejné složce */
+            background: url('banner.png') no-repeat center center/cover;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-end; /* Umístí tlačítko dolů pod auta */
             text-align: center;
-            color: white;
-            padding: 20px;
-        }
-
-        .hero-text h1 {
-            font-size: 48px;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-        }
-
-        .hero-text p {
-            font-size: 20px;
-            margin-bottom: 25px;
-            font-weight: 300;
+            padding-bottom: 40px; /* Vzdálenost tlačítka od spodního okraje */
         }
 
         .btn-call {
@@ -141,8 +129,9 @@
             text-decoration: none;
             border-radius: 30px;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
             transition: transform 0.2s ease, background 0.3s ease;
+            z-index: 2;
         }
 
         .btn-call:hover {
@@ -150,23 +139,24 @@
             transform: translateY(-2px);
         }
 
-        /* Responzivita pro mobily */
+        /* Responzivita pro mobilní zařízení */
         @media (max-width: 768px) {
             header {
                 padding: 15px 20px;
             }
-            .hero-text h1 {
-                font-size: 32px;
+            .hero {
+                height: 50vh; /* Na mobilu mírně vyšší výřez, aby auta zůstala viditelná */
+                padding-bottom: 25px;
             }
-            .hero-text p {
+            .btn-call {
                 font-size: 16px;
+                padding: 12px 25px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- HLAVIČKA S LOGEM A KONTAKTNÍM STROMEM -->
     <header>
         <div class="logo">
             🚖 Taxi <span>Green Domažlice</span>
@@ -194,13 +184,8 @@
         </div>
     </header>
 
-    <!-- HLAVNÍ FOTKA S TEXTEM -->
     <section class="hero">
-        <div class="hero-text">
-            <h1>TAXI Green Domažlice</h1>
-            <p>Rychle, bezpečně a za férové ceny. Sledujte nás, brzy pro vás chystáme online rezervace!</p>
-            <a href="tel:+420123456789" class="btn-call">Zavolat Taxi</a>
-        </div>
+        <a href="tel:+420607722555" class="btn-call">Zavolat Taxi</a>
     </section>
 
 </body>
