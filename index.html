@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taxi Green Domažlice</title>
     <style>
-        /* Základní nastavení stránky */
         body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; overflow: hidden; }
 
-        /* Hlavní obrázek na pozadí */
         .taxi-header {
             width: 100%;
             height: 100vh;
@@ -18,7 +16,6 @@
             position: relative;
         }
 
-        /* Zelený pruh na spodku */
         .bottom-bar {
             position: absolute;
             bottom: 0;
@@ -32,7 +29,6 @@
             box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
         }
 
-        /* Stylizace tlačítek */
         .icon-button {
             width: 110px;
             height: 110px;
@@ -44,22 +40,21 @@
             border: none;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-decoration: none;
-            padding: 12px; 
-            box-sizing: border-box;
+            overflow: hidden; /* Ořízne vše, co přetéká */
+            padding: 0;
             cursor: pointer;
         }
 
-        /* Efekt při najetí myší - zvětšení */
         .icon-button:hover { 
             transform: scale(1.4); 
             z-index: 10;
         }
 
-        /* Nastavení obrázku uvnitř tlačítka */
         .icon-button img {
             width: 100%;
             height: 100%;
-            object-fit: contain; 
+            object-fit: cover;      /* Roztáhne obrázek na celou plochu */
+            transform: scale(1.15); /* Mírný zoom, aby zmizely okraje */
             display: block;
         }
     </style>
@@ -71,11 +66,7 @@
             <a href="taxisluzba.html" class="icon-button"><img src="images/taxis.png" alt="Taxi"></a>
             <a href="drinkservis.html" class="icon-button"><img src="images/Drink.png" alt="Drink"></a>
             <a href="cenik.html" class="icon-button"><img src="images/cenik.png" alt="Cenik"></a>
-            
-            <a href="https://domazlicetaxi-tech.github.io/Kalkulacka/" target="_blank" rel="noopener noreferrer" class="icon-button">
-                <img src="images/kalkulacka.png" alt="Kalkulacka">
-            </a>
-
+            <a href="https://domazlicetaxi-tech.github.io/Kalkulacka/" target="_blank" rel="noopener noreferrer" class="icon-button"><img src="images/kalkulacka.png" alt="Kalkulacka"></a>
             <a href="nakupy.html" class="icon-button"><img src="images/nakupy.png" alt="Nakupy"></a>
             <a href="odtah.html" class="icon-button"><img src="images/odtah.png" alt="Odtah"></a>
             <a href="pneu.html" class="icon-button"><img src="images/pneu.png" alt="Pneu"></a>
