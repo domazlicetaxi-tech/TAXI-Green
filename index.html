@@ -5,22 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taxi Green Domažlice</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; overflow-x: hidden; }
+        body, html { 
+            margin: 0; padding: 0; height: 100%; font-family: sans-serif; 
+            overflow: hidden; /* Zabrání posouvání stránky */
+        }
 
-        /* Hlavní obrázek na pozadí */
         .taxi-header {
             width: 100%;
-            height: 100vh;
+            height: 100vh; /* Použijeme 100vh, ale pozadí bude centrovat */
             background-image: url('images/pozadi.png');
-            /* 'cover' zajistí vyplnění, ale může oříznout okraje. 
-               Pokud chcete vidět celá auta, změňte na 'contain' */
             background-size: cover; 
-            background-position: center bottom; /* Pozadí drží u spodku */
+            background-position: center;
             background-repeat: no-repeat;
             position: relative;
         }
 
-        /* Kontejner tlačítek */
         .buttons-container {
             position: absolute;
             bottom: 20px; 
@@ -29,38 +28,40 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
-            flex-wrap: wrap; /* Zalamování na mobilu */
-            padding: 0 10px;
+            flex-wrap: wrap; /* Zalamování pro mobily */
+            padding: 0 5px;
             box-sizing: border-box;
         }
 
         .icon-button {
-            width: 70px; /* Menší tlačítka pro mobily, aby se vešla */
+            width: 70px; /* Ideální pro mobily */
             height: 70px;
             border-radius: 50%;
-            border: none;
-            background-color: rgba(0, 0, 0, 0.3); /* Jemné podbarvení pro čitelnost */
-            transition: transform 0.3s ease;
-            text-decoration: none;
+            background-color: #000; /* Černá podkladová barva – žádná bílá! */
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 8px;
+            text-decoration: none;
+            overflow: hidden;
+            padding: 8px; /* Odsazení loga od okraje */
             box-sizing: border-box;
-            cursor: pointer;
+            border: none;
+            transition: transform 0.2s;
         }
+
+        .icon-button:hover { transform: scale(1.1); }
 
         .icon-button img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Logo se nikdy neořízne */
+            object-fit: contain; /* Logo se nezvětší mimo kruh, ale bude celé */
             display: block;
         }
 
-        /* Úprava pro větší obrazovky (počítače) */
-        @media (min-width: 768px) {
-            .icon-button { width: 110px; height: 110px; }
-            .buttons-container { gap: 20px; bottom: 40px; }
+        /* Pro počítače */
+        @media (min-width: 600px) {
+            .icon-button { width: 100px; height: 100px; padding: 12px; }
+            .buttons-container { bottom: 40px; gap: 20px; }
         }
     </style>
 </head>
