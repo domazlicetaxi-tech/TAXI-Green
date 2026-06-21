@@ -7,64 +7,66 @@
     <style>
         body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; overflow: hidden; }
 
-        /* Hlavní obrázek na pozadí */
         .taxi-header {
             width: 100%;
             height: 100vh;
             background-image: url('images/pozadi.png');
             background-size: cover;
-            /* Upraveno: posunuto více nahoru, aby byla kola vozidel vidět nad pruhem */
-            background-position: center 30%; 
+            background-position: center;
             position: relative;
         }
 
-        /* Zelený pruh na spodku */
         .bottom-bar {
             position: absolute;
             bottom: 0;
             width: 100%;
-            /* Upravena výška pro lepší vizuální vyvážení pod koly */
-            height: 160px; 
+            height: 140px;
             background-color: rgba(163, 255, 102, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
+            gap: 15px; /* Mírně zmenšeno pro více prostoru */
             box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
-            z-index: 10;
         }
 
-        /* Tlačítka */
         .icon-button {
-            width: 100px; /* Mírně upraveno pro lepší vejití se do pruhu */
-            height: 100px;
+            width: 110px;
+            height: 110px;
+            /* Černá barva pozadí pod průhledným PNG */
             background-color: #000;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 3px solid #fff;
-            transition: transform 0.2s;
+            border: none;
+            transition: transform 0.3s ease;
             text-decoration: none;
             overflow: hidden;
+            /* Zajištění, že se nic neořízne */
+            padding: 0; 
         }
 
-        .icon-button:hover { transform: scale(1.1); }
+        .icon-button:hover { 
+            transform: scale(1.4); /* Zvětšeno pro lepší čitelnost */
+            z-index: 10;
+        }
 
         .icon-button img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            /* 'contain' zajistí, že uvidíte celé logo bez oříznutí */
+            /* Pokud chcete, aby logo "přetékalo" okraje, použijte 'cover' */
+            object-fit: contain; 
+            display: block;
         }
     </style>
 </head>
 <body>
-
     <div class="taxi-header">
         <div class="bottom-bar">
             <a href="taxisluzba.html" class="icon-button"><img src="images/taxis.png" alt="Taxi"></a>
             <a href="drinkservis.html" class="icon-button"><img src="images/Drink.png" alt="Drink"></a>
-            <a href="cenik.html" class="icon-button"><img src="images/Cenik.png" alt="Cenik"></a>
+            <a href="cenik.html" class="icon-button"><img src="images/cenik.png" alt="Cenik"></a>
             <a href="kalkulacka.html" class="icon-button"><img src="images/kalkulacka.png" alt="Kalkulacka"></a>
             <a href="nakupy.html" class="icon-button"><img src="images/nakupy.png" alt="Nakupy"></a>
             <a href="odtah.html" class="icon-button"><img src="images/odtah.png" alt="Odtah"></a>
@@ -73,6 +75,5 @@
             <a href="management.html" class="icon-button"><img src="images/management.png" alt="Management"></a>
         </div>
     </div>
-
 </body>
 </html>
