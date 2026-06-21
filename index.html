@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taxi Green Domažlice</title>
     <style>
+        /* Základní nastavení stránky */
         body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; overflow: hidden; }
 
+        /* Hlavní obrázek na pozadí */
         .taxi-header {
             width: 100%;
             height: 100vh;
@@ -16,6 +18,7 @@
             position: relative;
         }
 
+        /* Zelený pruh na spodku */
         .bottom-bar {
             position: absolute;
             bottom: 0;
@@ -25,43 +28,45 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px; /* Mírně zmenšeno pro více prostoru */
+            gap: 20px;
             box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
         }
 
+        /* Stylizace tlačítek */
         .icon-button {
             width: 110px;
             height: 110px;
-            /* Černá barva pozadí pod průhledným PNG */
             background-color: #000;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             border: none;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-decoration: none;
-            overflow: hidden;
-            /* Zajištění, že se nic neořízne */
-            padding: 0; 
+            overflow: hidden; /* Zajišťuje, že se vše uvnitř ořízne do kruhu */
+            padding: 0;
+            cursor: pointer;
         }
 
+        /* Efekt při najetí myší - zvětšení */
         .icon-button:hover { 
-            transform: scale(1.4); /* Zvětšeno pro lepší čitelnost */
+            transform: scale(1.4); 
             z-index: 10;
         }
 
+        /* Nastavení obrázku uvnitř tlačítka */
         .icon-button img {
             width: 100%;
             height: 100%;
-            /* 'contain' zajistí, že uvidíte celé logo bez oříznutí */
-            /* Pokud chcete, aby logo "přetékalo" okraje, použijte 'cover' */
-            object-fit: contain; 
+            object-fit: cover; /* Obrázek vyplní celou plochu bez mezer */
+            object-position: center; /* Drží logo vycentrované */
             display: block;
         }
     </style>
 </head>
 <body>
+
     <div class="taxi-header">
         <div class="bottom-bar">
             <a href="taxisluzba.html" class="icon-button"><img src="images/taxis.png" alt="Taxi"></a>
@@ -75,5 +80,6 @@
             <a href="management.html" class="icon-button"><img src="images/management.png" alt="Management"></a>
         </div>
     </div>
+
 </body>
 </html>
