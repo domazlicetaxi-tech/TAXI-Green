@@ -5,63 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taxi Green Domažlice</title>
     <style>
-        body, html { 
-            margin: 0; padding: 0; height: 100%; font-family: sans-serif; 
-            overflow: hidden; /* Zabrání posouvání stránky */
-        }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; overflow: hidden; }
 
         .taxi-header {
             width: 100%;
-            height: 100vh; /* Použijeme 100vh, ale pozadí bude centrovat */
+            height: 100vh;
             background-image: url('images/pozadi.png');
-            background-size: cover; 
+            background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
             position: relative;
         }
 
+        /* Kontejner tlačítek na spodku */
         .buttons-container {
             position: absolute;
-            bottom: 20px; 
+            bottom: 30px; 
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
-            flex-wrap: wrap; /* Zalamování pro mobily */
-            padding: 0 5px;
-            box-sizing: border-box;
+            gap: 15px;
         }
 
+        /* Tlačítka */
         .icon-button {
-            width: 70px; /* Ideální pro mobily */
-            height: 70px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
-            background-color: #000; /* Černá podkladová barva – žádná bílá! */
+            border: none;
+            background-color: rgba(0, 0, 0, 0.4); /* Jemný tmavý podklad pro čitelnost log */
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
             display: flex;
             justify-content: center;
             align-items: center;
-            text-decoration: none;
-            overflow: hidden;
-            padding: 8px; /* Odsazení loga od okraje */
+            padding: 8px; /* Odsazení, aby se text nedotýkal okraje */
             box-sizing: border-box;
-            border: none;
-            transition: transform 0.2s;
+            cursor: pointer;
         }
 
-        .icon-button:hover { transform: scale(1.1); }
+        .icon-button:hover { 
+            transform: scale(1.4); 
+            z-index: 10;
+        }
 
+        /* Obrázek loga */
         .icon-button img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Logo se nezvětší mimo kruh, ale bude celé */
+            object-fit: contain; /* ZAJISTÍ, ŽE JE CELÉ LOGO VIDĚT A NIC SE NEŘEŽE */
             display: block;
-        }
-
-        /* Pro počítače */
-        @media (min-width: 600px) {
-            .icon-button { width: 100px; height: 100px; padding: 12px; }
-            .buttons-container { bottom: 40px; gap: 20px; }
         }
     </style>
 </head>
