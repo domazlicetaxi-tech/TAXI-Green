@@ -5,71 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taxi Green Domažlice</title>
     <style>
-        body { margin: 0; padding: 0; background-color: #000; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; overflow: hidden; }
 
-        /* Hlavní kontejner - obrázek se zobrazí celý */
-        .page-container {
-            position: relative;
+        /* Hlavní obrázek na pozadí */
+        .taxi-header {
             width: 100%;
-            /* Vypočítáme výšku podle obrázku - pokud by se pořád řezal, změňte 100vh na auto */
-            height: 100vh; 
+            height: 100vh;
             background-image: url('images/pozadi.png');
-            background-size: contain; /* Zobrazí celý obrázek včetně nápisů */
-            background-repeat: no-repeat;
-            background-position: center top; /* Nápisy nahoře zůstanou vidět */
+            background-size: cover;
+            /* Upraveno: posunuto více nahoru, aby byla kola vozidel vidět nad pruhem */
+            background-position: center 30%; 
+            position: relative;
         }
 
-        /* Zelený pruh - posunutý na pozici kol (cca 80% výšky obrázku) */
+        /* Zelený pruh na spodku */
         .bottom-bar {
             position: absolute;
             bottom: 0;
             width: 100%;
-            padding: 15px 0;
-            background-color: rgba(46, 102, 10, 0.9); /* Mírně průhledná tmavě zelená */
+            /* Upravena výška pro lepší vizuální vyvážení pod koly */
+            height: 160px; 
+            background-color: rgba(163, 255, 102, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 20px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+            z-index: 10;
         }
 
-        /* Tlačítka - loga vyplní 100% plochy */
+        /* Tlačítka */
         .icon-button {
-            width: 100px;
+            width: 100px; /* Mírně upraveno pro lepší vejití se do pruhu */
             height: 100px;
             background-color: #000;
             border-radius: 50%;
-            border: 2px solid #a3ff66;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            transition: transform 0.3s ease;
+            border: 3px solid #fff;
+            transition: transform 0.2s;
             text-decoration: none;
+            overflow: hidden;
         }
 
-        .icon-button:hover { transform: scale(1.15); }
+        .icon-button:hover { transform: scale(1.1); }
 
-        /* Loga vyplní celý prostor tlačítka */
-        .icon-button img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
+        .icon-button img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
 
-    <div class="page-container">
+    <div class="taxi-header">
         <div class="bottom-bar">
-            <a href="#" class="icon-button"><img src="images/taxis.png" alt="Taxi"></a>
-            <a href="#" class="icon-button"><img src="images/Drink.png" alt="Drink"></a>
-            <a href="#" class="icon-button"><img src="images/cenik.png" alt="Cenik"></a>
-            <a href="#" class="icon-button"><img src="images/kalkulacka.png" alt="Kalkulacka"></a>
-            <a href="#" class="icon-button"><img src="images/nakupy.png" alt="Nakupy"></a>
-            <a href="#" class="icon-button"><img src="images/odtah.png" alt="Odtah"></a>
-            <a href="#" class="icon-button"><img src="images/pneu.png" alt="Pneu"></a>
-            <a href="#" class="icon-button"><img src="images/galerie.png" alt="Galerie"></a>
-            <a href="#" class="icon-button"><img src="images/management.png" alt="Management"></a>
+            <a href="taxisluzba.html" class="icon-button"><img src="images/taxis.png" alt="Taxi"></a>
+            <a href="drinkservis.html" class="icon-button"><img src="images/Drink.png" alt="Drink"></a>
+            <a href="cenik.html" class="icon-button"><img src="images/Cenik.png" alt="Cenik"></a>
+            <a href="kalkulacka.html" class="icon-button"><img src="images/kalkulacka.png" alt="Kalkulacka"></a>
+            <a href="nakupy.html" class="icon-button"><img src="images/nakupy.png" alt="Nakupy"></a>
+            <a href="odtah.html" class="icon-button"><img src="images/odtah.png" alt="Odtah"></a>
+            <a href="pneu.html" class="icon-button"><img src="images/pneu.png" alt="Pneu"></a>
+            <a href="galerie.html" class="icon-button"><img src="images/galerie.png" alt="Galerie"></a>
+            <a href="management.html" class="icon-button"><img src="images/management.png" alt="Management"></a>
         </div>
     </div>
 
