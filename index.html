@@ -14,31 +14,30 @@
             min-height: 100vh;
         }
 
-        /* Obrázek: necháme ho přirozeně se roztáhnout */
+        /* Obrázek: Ukotven ke spodní straně, aby kola taxíků byla vždy u lišty */
         .taxi-header {
             width: 100%;
             background-image: url('images/pozadi.png');
-            background-size: cover; /* Obrázek vyplní šířku */
+            background-size: cover;
             background-position: center bottom;
-            flex: 1; /* Zabere veškerý prostor nad pruhem */
-            min-height: 70vh; /* Minimální výška obrázku */
+            flex: 1; 
+            min-height: 60vh;
         }
 
-        /* Zelený pruh: zúžen na 100px a tmavě zelená */
+        /* Zelený pruh: těsně obepíná tlačítka */
         .bottom-bar {
-            height: 100px; /* Zúženo */
+            padding: 10px 20px; /* Těsné odsazení nahoře/dole */
             background-color: #2e660a; 
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px; /* Menší mezery */
-            padding: 0 10px;
+            gap: 20px;
         }
 
-        /* Tlačítka: zmenšena, aby se vešla do užšího pruhu */
+        /* Tlačítka */
         .icon-button {
-            width: 75px;
-            height: 75px;
+            width: 80px;
+            height: 80px;
             background-color: #000;
             border-radius: 50%;
             display: flex;
@@ -46,11 +45,20 @@
             align-items: center;
             border: 2px solid #a3ff66;
             overflow: hidden;
-            transition: transform 0.2s;
+            transition: transform 0.3s ease; /* Plynulý přechod */
             text-decoration: none;
         }
-        .icon-button img { width: 90%; height: 90%; object-fit: cover; }
-        .icon-button:hover { transform: scale(1.05); }
+
+        /* Efekt zvětšení při najetí myší */
+        .icon-button:hover {
+            transform: scale(1.2); /* Zvětšení o 20 % */
+        }
+
+        .icon-button img { 
+            width: 85%; 
+            height: 85%; 
+            object-fit: contain; 
+        }
     </style>
 </head>
 <body>
