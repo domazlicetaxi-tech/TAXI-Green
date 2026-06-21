@@ -16,7 +16,6 @@
             position: relative;
         }
 
-        /* Kontejner tlačítek na spodku */
         .buttons-container {
             position: absolute;
             bottom: 30px; 
@@ -25,35 +24,34 @@
             justify-content: center;
             align-items: center;
             gap: 15px;
+            flex-wrap: wrap; /* Pro mobily */
         }
 
-        /* Tlačítka */
         .icon-button {
             width: 110px;
             height: 110px;
-            border-radius: 50%;
+            border-radius: 50%; /* Dělá z tlačítka kruh */
             border: none;
-            background-color: rgba(0, 0, 0, 0.4); /* Jemný tmavý podklad pro čitelnost log */
+            background-color: #000; /* Černé pozadí, pokud by logo bylo průhledné */
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-decoration: none;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 8px; /* Odsazení, aby se text nedotýkal okraje */
-            box-sizing: border-box;
+            overflow: hidden; /* KLÍČOVÉ: OŘÍZNE OBRÁZEK DO KRUHU */
+            padding: 0; 
             cursor: pointer;
         }
 
         .icon-button:hover { 
-            transform: scale(1.4); 
+            transform: scale(1.4); /* Zvětšení při najetí */
             z-index: 10;
         }
 
-        /* Obrázek loga */
         .icon-button img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* ZAJISTÍ, ŽE JE CELÉ LOGO VIDĚT A NIC SE NEŘEŽE */
+            object-fit: cover; /* KLÍČOVÉ: ROZTÁHNE OBRÁZEK NA CELÝ KRUH */
             display: block;
         }
     </style>
