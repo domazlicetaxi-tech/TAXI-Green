@@ -3,19 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taxi Green Domažlice - Celistvý Projekt</title>
+    <title>Taxi Green Domažlice</title>
     <style>
-        /* --- ZÁKLADNÍ NASTAVENÍ STRÁNKY --- */
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* Zabrání rolování, hlavička je celá viditelná */
-            height: 100%;
-            font-family: Arial, sans-serif;
-            background-color: #000;
-        }
-
-        /* --- KONTEJNER PRO CELOU HLAVIČKU --- */
+        body, html { margin: 0; padding: 0; height: 100%; font-family: Arial, sans-serif; background-color: #000; }
         .taxi-header {
             position: relative;
             width: 100%;
@@ -23,121 +13,44 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Zde voláme váš přesný hlavní obrázek. Znaky %20 nahrazují mezeru a %C3%AD je 'í' v URL */
+            /* Zde musí být název souboru přesně podle toho, co je ve složce */
             background-image: url('images/pozadi.png');
             background-size: cover;
-            background-position: center bottom; /* Ukotvení obrázku ke spodní hraně, aby dlažba neuskakovala */
+            background-position: center bottom;
             z-index: 1;
         }
-
-        /* --- ŘADA TLAČÍTEK --- */
         .button-row {
             position: absolute;
-            bottom: 3%; /* Vzdálenost od spodu (nad dlažebními kostkami) */
+            bottom: 3%;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             justify-content: center;
-            align-items: center;
             gap: 15px;
-            width: 95%;
-            max-width: 1400px;
             z-index: 10;
-            padding: 10px;
-            box-sizing: border-box;
         }
-
-        /* --- VZHLED TLAČÍTKA --- */
         .icon-button {
-            width: 90px;
-            height: 90px;
-            background-color: rgba(0, 0, 0, 0.6);
-            border: 2px solid #a3ff66; /* Zelený okraj */
-            border-radius: 50%; /* Kulatý tvar */
-            cursor: pointer;
+            width: 90px; height: 90px;
+            border-radius: 50%;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(163, 255, 102, 0.4);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            text-decoration: none; /* Odstraní podtržení, pokud by se jednalo o klasický odkaz */
+            border: 2px solid #a3ff66;
         }
-
-        /* Hover efekt - po najetí myší */
-        .icon-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(163, 255, 102, 1);
-            background-color: #a3ff66;
-            border-color: #000;
-        }
-
-        /* --- VZHLED IKONY UVNITŘ --- */
-        .icon-button img {
-            width: 100%; 
-            height: 100%;
-            object-fit: cover; /* Vyplní celé tlačítko ikonou */
-            object-position: center;
-        }
-
-        /* --- RESPONZIVITA PRO MOBILY --- */
-        @media (max-width: 768px) {
-            .button-row {
-                gap: 8px; /* Menší mezery */
-                flex-wrap: wrap; /* Zalamování do více řádků, pokud se nevejdou */
-            }
-            .icon-button {
-                width: 60px; /* Menší tlačítka pro mobil */
-                height: 60px;
-            }
-        }
+        .icon-button img { width: 100%; height: 100%; object-fit: cover; }
     </style>
 </head>
 <body>
-
     <div class="taxi-header">
-        
         <div class="button-row">
-            
-            <a href="#" class="icon-button" title="Taxi služba">
-                <img src="images/taxisližba.png" alt="Taxi služba">
-            </a>
-
-            <a href="#" class="icon-button" title="Drink Servis">
-                <img src="images/Drink.png" alt="Drink Servis">
-            </a>
-
-            <a href="#" class="icon-button" title="Ceník">
-                <img src="images/cenik.png" alt="Ceník">
-            </a>
-
-            <a href="#" class="icon-button" title="Kalkulačka ceny">
-                <img src="images/kalkulacka.png" alt="Kalkulačka ceny">
-            </a>
-
-            <a href="#" class="icon-button" title="Drobné nákupy">
-                <img src="images/nakupy.png" alt="Drobné nákupy">
-            </a>
-
-            <a href="#" class="icon-button" title="Odtah vozidel">
-                <img src="images/odtah.png" alt="Odtah vozidel">
-            </a>
-
-            <a href="#" class="icon-button" title="Pneu SOS">
-                <img src="images/pneu.png" alt="Pneu SOS">
-            </a>
-
-            <a href="#" class="icon-button" title="Fotogalerie">
-                <img src="images/galerie.png" alt="Fotogalerie">
-            </a>
-
-            <a href="#" class="icon-button" title="Taxi Green Management">
-                <img src="images/management.png" alt="Management">
-            </a>
-            
+            <a href="#" class="icon-button"><img src="images/taxis.png" alt="Taxi"></a>
+            <a href="#" class="icon-button"><img src="images/Drink.png" alt="Drink"></a>
+            <a href="#" class="icon-button"><img src="images/cenik.png" alt="Cenik"></a>
+            <a href="#" class="icon-button"><img src="images/kalkulacka.png" alt="Kalkulacka"></a>
+            <a href="#" class="icon-button"><img src="images/nakupy.png" alt="Nakupy"></a>
+            <a href="#" class="icon-button"><img src="images/odtah.png" alt="Odtah"></a>
+            <a href="#" class="icon-button"><img src="images/pneu.png" alt="Pneu"></a>
+            <a href="#" class="icon-button"><img src="images/galerie.png" alt="Galerie"></a>
+            <a href="#" class="icon-button"><img src="images/management.png" alt="Management"></a>
         </div>
     </div>
-
 </body>
 </html>
