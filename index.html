@@ -2,67 +2,57 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taxi Green Domažlice</title>
     <style>
-        * { box-sizing: border-box; }
         body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; overflow: hidden; }
 
         .taxi-header {
             width: 100%;
             height: 100vh;
-            /* Změna zde: contain zajistí, že uvidíte celý obrázek */
             background-image: url('images/pozadi.png');
-            background-size: contain; 
-            background-position: center top; /* Pozadí drží nahoře, aby byl nápis vidět */
-            background-repeat: no-repeat;
-            background-color: #000; /* Barva pozadí kolem obrázku, pokud zbyde místo */
+            background-size: cover;
+            background-position: center;
             position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding-bottom: 20px;
         }
 
         .buttons-container {
+            position: absolute;
+            bottom: 30px; 
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            padding: 10px;
-            background: rgba(0,0,0,0.2); /* Mírné podbarvení kontejneru pro lepší čitelnost */
+            gap: 15px;
+            flex-wrap: wrap; /* Pro mobily */
         }
 
         .icon-button {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%; /* Dělá z tlačítka kruh */
             border: none;
-            background-color: #000;
-            transition: transform 0.3s;
+            background-color: #000; /* Černé pozadí, pokud by logo bylo průhledné */
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-decoration: none;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* KLÍČOVÉ: OŘÍZNE OBRÁZEK DO KRUHU */
+            padding: 0; 
             cursor: pointer;
         }
 
-        .icon-button:hover { transform: scale(1.1); }
+        .icon-button:hover { 
+            transform: scale(1.4); /* Zvětšení při najetí */
+            z-index: 10;
+        }
 
         .icon-button img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Logo vyplní kruh, protože je už oříznuté */
+            object-fit: cover; /* KLÍČOVÉ: ROZTÁHNE OBRÁZEK NA CELÝ KRUH */
             display: block;
-        }
-
-        @media (min-width: 600px) {
-            .taxi-header { background-size: cover; background-position: center; } /* Na PC zůstane cover */
-            .icon-button { width: 110px; height: 110px; }
-            .buttons-container { gap: 20px; padding-bottom: 40px; }
         }
     </style>
 </head>
