@@ -42,15 +42,18 @@
             z-index: 100;
         }
 
+        /* UPRAVENO: Panel posunut úplně dolů k okraji */
         .buttons-container {
             position: absolute;
-            bottom: 30px; 
+            bottom: 0; /* Tlačí container na samotný spodek */
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 15px;
             flex-wrap: wrap; 
+            padding-bottom: 20px; /* Rezerva pro zvětšení (scale) tlačítek při najetí myší */
+            box-sizing: border-box;
         }
 
         .icon-button {
@@ -83,7 +86,7 @@
 
         /* STYLY PRO NOVÉ TLAČÍTKO VOLÁNÍ */
         .call-btn {
-            background-color: #27ae60; /* Zelená barva pro zvýraznění */
+            background-color: #27ae60; 
             color: #ffffff;
             border: 2px solid #ffffff;
             box-sizing: border-box;
@@ -91,7 +94,7 @@
 
         /* STYL PRO NOVÉ TLAČÍTKO WHATSAPP */
         .whatsapp-btn {
-            background-color: #25D366; /* WhatsApp zelená barva */
+            background-color: #25D366; 
             color: #ffffff;
             border: 2px solid #ffffff;
             box-sizing: border-box;
@@ -225,7 +228,6 @@
                 background-repeat: no-repeat;
             }
 
-            /* Responzivní přizpůsobení horních tlačítek pro mobily */
             .top-left-container {
                 top: 15px;
                 left: 10px;
@@ -236,11 +238,11 @@
                 right: 10px;
             }
 
+            /* UPRAVENO: Zmenšen spodní odstup na mobilech na minimum */
             .buttons-container {
                 position: relative; 
                 bottom: auto;
-                width: 100%;
-                padding: 20px 10px 50px 10px; 
+                padding: 20px 10px 20px 10px; 
                 box-sizing: border-box;
                 margin-top: 0;
                 gap: 12px;
@@ -255,7 +257,6 @@
                 transform: scale(1.1); 
             }
 
-            /* Přizpůsobení textu na volacím tlačítku pro mobily */
             .call-title {
                 font-size: 10px;
             }
@@ -290,19 +291,12 @@
 
         <div class="buttons-container">
             <a href="#" onclick="otevriDrink(event)" class="icon-button"><img src="images/Drink.png" alt="Drink"></a>
-            
             <a href="#" onclick="otevriCenik(event)" class="icon-button"><img src="images/cenik.png" alt="Ceník"></a>
-            
             <a href="https://domazlicetaxi-tech.github.io/Kalkulacka/" target="_blank" rel="noopener noreferrer" class="icon-button"><img src="images/kalkulacka.png" alt="Kalkulačka"></a>
-            
             <a href="#" onclick="otevriNakupy(event)" class="icon-button"><img src="images/nakupy.png" alt="Nákupy"></a>
-            
             <a href="#" onclick="otevriOdtah(event)" class="icon-button"><img src="images/odtah.png" alt="Odtah"></a>
-            
             <a href="#" onclick="otevriPneu(event)" class="icon-button"><img src="images/pneu.png" alt="Pneu"></a>
-            
             <a href="galerie.html" class="icon-button"><img src="images/galerie.png" alt="Galerie"></a>
-            
             <a href="https://wa.me/420607722555" target="_blank" rel="noopener noreferrer" class="icon-button"><img src="images/management.png" alt="Management"></a>
         </div>
     </div>
@@ -311,7 +305,6 @@
         <div class="modal-content">
             <span class="close-btn" onclick="zavriDrink()">&times;</span>
             <h2>Drink servis</h2>
-            
             <div class="info-box">
                 <p><strong>Vy klidně pijte, užívejte si a my odvezeme vás i vaše vozidlo.</strong></p>
                 <p style="margin-top: 10px;">Tato služba spočívá v tom, že po předchozí domluvě vás přijede vyzvednout vozidlo ještě s jedním řidičem, který na vámi zadanou adresu přepraví vaše vozidlo.</p>
@@ -323,21 +316,18 @@
         <div class="modal-content">
             <span class="close-btn" onclick="zavriCenik()">&times;</span>
             <h2>Ceník jízdného</h2>
-            
             <div class="sazba-box">
                 <h3>Sazba po městě</h3>
                 <p>Nástupní sazba: <strong>20 Kč</strong></p>
                 <p>Jízdné: <strong>34 Kč / km</strong></p>
                 <p>Čekání: <strong>6 Kč / min</strong></p>
             </div>
-
             <div class="sazba-box">
                 <h3>Sazba mimo město</h3>
                 <p>Nástupní sazba: <strong>20 Kč</strong></p>
                 <p>Jízdné: <strong>26 Kč / km</strong></p>
                 <p>Čekání: <strong>6 Kč / min</strong></p>
             </div>
-
             <div class="sazba-box">
                 <h3>Okružní jízda</h3>
                 <p>Nástupní sazba: <strong>20 Kč</strong></p>
@@ -351,9 +341,8 @@
         <div class="modal-content">
             <span class="close-btn" onclick="zavriOdtah()">&times;</span>
             <h2>Odtahová služba</h2>
-            
             <div class="info-box">
-                <p>V případě poruchy vašeho vozidla jsme schopni zabezpečit jeho odtah na vleku a smozřejmě i přepravu jeho posádky.</p>
+                <p>V případě poruchy vašeho vozidla jsme schopni zabezpečit jeho odtah na vleku a samozřejmě i přepravu jeho posádky.</p>
             </div>
         </div>
     </div>
@@ -362,7 +351,6 @@
         <div class="modal-content">
             <span class="close-btn" onclick="zavriNakupy()">&times;</span>
             <h2>Drobné nákupy s doručením</h2>
-            
             <div class="info-box">
                 <p>Po dohodě s řidičem vám můžeme zabezpečit drobný nákup zhruba do <strong>1 000 Kč</strong>.</p>
                 <p style="margin-top: 10px;">Za tento nákup bude účtována cena nákupu <strong>plus</strong> cena jízdného a <strong>50 Kč</strong> jednorázový poplatek.</p>
@@ -375,7 +363,6 @@
         <div class="modal-content">
             <span class="close-btn" onclick="zavriPneu()">&times;</span>
             <h2>Pneuservis / Defekt</h2>
-            
             <div class="info-box">
                 <p><strong>Máte defekt na pneumatice? Zavolejte nám!</strong></p>
                 <p style="margin-top: 10px;">Pokud to bude v našich silách, zabezpečíme zalepení nebo výměnu pneumatiky. A vy jedete dál!</p>
@@ -385,81 +372,59 @@
     </div>
 
     <script>
-        // --- FUNKCE PRO DRINK SERVIS ---
         function otevriDrink(udalost) {
             udalost.preventDefault(); 
             document.getElementById('oknoDrink').style.display = 'flex';
         }
-
         function zavriDrink() {
             document.getElementById('oknoDrink').style.display = 'none';
         }
 
-        // --- FUNKCE PRO CENÍK ---
         function otevriCenik(udalost) {
             udalost.preventDefault(); 
             document.getElementById('oknoCenik').style.display = 'flex';
         }
-
         function zavriCenik() {
             document.getElementById('oknoCenik').style.display = 'none';
         }
 
-        // --- FUNKCE PRO ODTAH ---
         function otevriOdtah(udalost) {
             udalost.preventDefault(); 
             document.getElementById('oknoOdtah').style.display = 'flex';
         }
-
         function zavriOdtah() {
             document.getElementById('oknoOdtah').style.display = 'none';
         }
 
-        // --- FUNKCE PRO NÁKUPY ---
         function otevriNakupy(udalost) {
             udalost.preventDefault(); 
             document.getElementById('oknoNakupy').style.display = 'flex';
         }
-
         function zavriNakupy() {
             document.getElementById('oknoNakupy').style.display = 'none';
         }
 
-        // --- NOVÁ FUNKCE PRO PNEU ---
         function otevriPneu(udalost) {
             udalost.preventDefault(); 
             document.getElementById('oknoPneu').style.display = 'flex';
         }
-
         function zavriPneu() {
             document.getElementById('oknoPneu').style.display = 'none';
         }
 
-        // --- ZAVŘENÍ OKEN KLIKNUTÍM MIMO NĚ ---
         window.onclick = function(udalost) {
             var oknoDrink = document.getElementById('oknoDrink');
             var oknoCenik = document.getElementById('oknoCenik');
             var oknoOdtah = document.getElementById('oknoOdtah');
             var oknoNakupy = document.getElementById('oknoNakupy');
-            var oknoPneu = document.getElementById('oknoPneu'); // Přidáno okno pneu
+            var oknoPneu = document.getElementById('oknoPneu');
             
-            if (udalost.target === oknoDrink) {
-                oknoDrink.style.display = 'none';
-            }
-            if (udalost.target === oknoCenik) {
-                oknoCenik.style.display = 'none';
-            }
-            if (udalost.target === oknoOdtah) {
-                oknoOdtah.style.display = 'none';
-            }
-            if (udalost.target === oknoNakupy) {
-                oknoNakupy.style.display = 'none';
-            }
-            if (udalost.target === oknoPneu) {
-                oknoPneu.style.display = 'none'; // Reakce kliknutí pro pneu
-            }
+            if (udalost.target === oknoDrink) { oknoDrink.style.display = 'none'; }
+            if (udalost.target === oknoCenik) { oknoCenik.style.display = 'none'; }
+            if (udalost.target === oknoOdtah) { oknoOdtah.style.display = 'none'; }
+            if (udalost.target === oknoNakupy) { oknoNakupy.style.display = 'none'; }
+            if (udalost.target === oknoPneu) { oknoPneu.style.display = 'none'; }
         }
     </script>
-
 </body>
 </html>
