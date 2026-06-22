@@ -4,85 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galerie - Taxi Green Domažlice</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: sans-serif;
-            background-color: #111;
-            color: #fff;
-        }
-        h1 {
-            text-align: center;
-            color: #27ae60;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: background 0.3s;
-            border: 1px solid #444;
-        }
-        .back-btn:hover {
-            background-color: #27ae60;
-        }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 10px;
-        }
-        .gallery-item {
-            background-color: #222;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            border: 1px solid #333;
-            transition: transform 0.3s;
-            aspect-ratio: 4 / 3;
-        }
-        .gallery-item:hover {
-            transform: scale(1.03);
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            cursor: pointer;
-        }
-        #loading {
-            text-align: center;
-            font-size: 18px;
-            color: #888;
-            margin-top: 50px;
-        }
-        @media (max-width: 600px) {
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 10px;
-            }
-            body { padding: 10px; }
-        }
+        body { margin: 0; padding: 20px; font-family: sans-serif; background-color: #111; color: #fff; }
+        h1 { text-align: center; color: #27ae60; }
+        .back-btn { display: inline-block; margin-bottom: 20px; padding: 10px 20px; background-color: #333; color: #fff; text-decoration: none; border-radius: 6px; font-weight: bold; border: 1px solid #444; }
+        
+        /* Styl pro posuvník */
+        .swiper { width: 100%; max-width: 600px; height: 400px; border-radius: 12px; }
+        .swiper-slide { display: flex; align-items: center; justify-content: center; background: #000; }
+        .swiper-slide img { display: block; width: 100%; height: 100%; object-fit: contain; }
     </style>
 </head>
 <body>
 
-    <a href="index.html" class="back-btn">⬅ Zpět na úvod</a>
+    <a href="index.html" class="back-btn">⬅ Zpět</a>
+    <h1>Galerie</h1>
+    <div id="loading" style="text-align:center; color:#888;">⏳ Načítám...</div>
 
-    <h1>Fotogalerie</h1>
+    <div class="swiper">
+        <div class="swiper-wrapper" id="galerieSwiper"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
 
-    <div id="loading">⏳ Načítám fotky z galerie...</div>
-    <div class="gallery-grid" id="galerieBox"></div>
-
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
@@ -95,32 +41,30 @@
             appId: "1:780503611359:web:a106c743b759aab644f66a",
             databaseURL: "https://taxi-green-domazlice-default-rtdb.europe-west1.firebasedatabase.app/"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        const galerieBox = document.getElementById('galerieBox');
+        const swiperWrapper = document.getElementById('galerieSwiper');
         const loadingDiv = document.getElementById('loading');
 
-        const fotkyRef = ref(db, 'fotogalerie');
-        onValue(fotkyRef, (snapshot) => {
-            galerieBox.innerHTML = "";
+        onValue(ref(db, 'fotogalerie'), (snapshot) => {
             if (snapshot.exists()) {
                 loadingDiv.style.display = "none";
                 const data = snapshot.val();
-                const seznamFotek = Object.keys(data).map(key => data[key]);
-                seznamFotek.sort((a, b) => (b.vytvoreno || 0) - (a.vytvoreno || 0));
+                const fotky = Object.values(data).sort((a,b) => b.vytvoreno - a.vytvoreno);
+                
+                swiperWrapper.innerHTML = "";
+                fotky.forEach(f => {
+                    swiperWrapper.innerHTML += `<div class="swiper-slide"><img src="${f.url}"></div>`;
+                });
 
-                seznamFotek.forEach(fotka => {
-                    if (fotka.url) {
-                        const item = document.createElement('div');
-                        item.className = 'gallery-item';
-                        item.innerHTML = `<img src="${fotka.url}" alt="Taxi fotka" onclick="window.open('${fotka.url}', '_blank')">`;
-                        galerieBox.appendChild(item);
-                    }
+                // Inicializace posuvníku
+                new Swiper('.swiper', {
+                    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+                    loop: true
                 });
             } else {
-                loadingDiv.innerText = "📸 V galerii zatím nejsou žádné fotky.";
+                loadingDiv.innerText = "📸 Zatím žádné fotky.";
             }
         });
     </script>
