@@ -65,6 +65,35 @@
             display: block;
         }
 
+        /* STYLY PRO NOVÉ TLAČÍTKO VOLÁNÍ */
+        .call-btn {
+            background-color: #27ae60; /* Zelená barva pro zvýraznění */
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            box-sizing: border-box;
+        }
+
+        .call-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .call-title {
+            font-size: 13px;
+            font-weight: bold;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .call-subtitle {
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
         /* =========================================
            VYSKAKOVACÍ OKNA (MODALY) - SPOLEČNÝ STYL
            ========================================= */
@@ -190,6 +219,16 @@
             .icon-button:hover {
                 transform: scale(1.1); 
             }
+
+            /* Přizpůsobení textu na volacím tlačítku pro mobily */
+            .call-title {
+                font-size: 10px;
+            }
+
+            .call-subtitle {
+                font-size: 9px;
+                margin-top: 2px;
+            }
         }
     </style>
 </head>
@@ -197,7 +236,13 @@
 
     <div class="taxi-header">
         <div class="buttons-container">
-            <a href="taxisluzba.html" class="icon-button"><img src="images/taxis.png" alt="Taxi"></a>
+            <!-- NOVÉ TLAČÍTKO PRO OKAMŽITÉ VOLÁNÍ -->
+            <a href="tel:+420607722555" class="icon-button call-btn">
+                <div class="call-content">
+                    <span class="call-title">Volat<br>dispečink</span>
+                    <span class="call-subtitle">provoz 24/7</span>
+                </div>
+            </a>
             
             <a href="#" onclick="otevriDrink(event)" class="icon-button"><img src="images/Drink.png" alt="Drink"></a>
             
