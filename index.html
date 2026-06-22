@@ -18,7 +18,34 @@
         }
 
         .taxi-header {
-            width: 100%;
+          
+            .call-button {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    background-color: #27ae60; /* Zelená barva taxi */
+    color: white;
+    padding: 8px 15px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+}
+
+.call-button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+.call-button:hover {
+    transform: scale(1.05);
+}width: 100%;
             height: 100vh;
             background-image: url('images/pozadi.png');
             background-size: cover;
