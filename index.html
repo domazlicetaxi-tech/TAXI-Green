@@ -3,424 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taxi Green Domažlice</title>
+    <title>Admin - Taxi Green Domažlice</title>
     <style>
-        /* =========================================
-           PŮVODNÍ STYLY PRO POČÍTAČ (DESKTOP)
-           ========================================= */
-        body, html { 
-            margin: 0; 
-            padding: 0; 
-            height: 100%; 
-            font-family: sans-serif; 
-            overflow: hidden; 
-            background-color: #000; 
-        }
-
-        .taxi-header {
-            width: 100%;
-            height: 100vh;
-            background-image: url('images/pozadi.png');
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-
-        /* KONTEJNER PRO TLAČÍTKO V LEVÉM HORNÍM ROHU */
-        .top-left-container {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            z-index: 100;
-        }
-
-        /* NOVÝ KONTEJNER PRO TLAČÍTKO V PRAVÉM HORNÍM ROHU */
-        .top-right-container {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            z-index: 100;
-        }
-
-        /* Panel posunut úplně dolů k okraji */
-        .buttons-container {
-            position: absolute;
-            bottom: 0; 
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap; 
-            padding-bottom: 20px; 
-            box-sizing: border-box;
-        }
-
-        .icon-button {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%; 
-            border: none;
-            background-color: #000; 
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-decoration: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; 
-            padding: 0; 
-            cursor: pointer;
-        }
-
-        .icon-button:hover { 
-            transform: scale(1.4); 
-            z-index: 10;
-        }
-
-        .icon-button img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; 
-            display: block;
-        }
-
-        .call-btn {
-            background-color: #27ae60; 
-            color: #ffffff;
-            border: 2px solid #ffffff;
-            box-sizing: border-box;
-        }
-
-        .whatsapp-btn {
-            background-color: #25D366; 
-            color: #ffffff;
-            border: 2px solid #ffffff;
-            box-sizing: border-box;
-        }
-
-        .call-content {
+        body {
+            font-family: sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            width: 100%;
         }
-
-        .call-title {
-            font-size: 13px;
-            font-weight: bold;
-            line-height: 1.2;
-            text-transform: uppercase;
-        }
-
-        .call-subtitle {
-            font-size: 11px;
-            margin-top: 4px;
-        }
-
-        /* =========================================
-           VYSKAKOVACÍ OKNA (MODALY) - SPOLEČNÝ STYL
-           ========================================= */
-        .modal-overlay {
-            display: none; 
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); 
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background-color: #fff;
+        .admin-container {
+            background-color: #222;
             padding: 25px;
             border-radius: 12px;
-            width: 85%;
+            width: 100%;
             max-width: 400px;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            animation: vyskoceni 0.3s ease-out;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            margin-top: 20px;
         }
-
-        @keyframes vyskoceni {
-            from { transform: translateY(-30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        h1 { color: #27ae60; text-align: center; margin-top: 0; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 14px; }
+        input[type="password"], input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background-color: #333;
+            color: white;
+            box-sizing: border-box;
         }
-
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
             font-weight: bold;
-            color: #888;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .close-btn:hover { color: #000; }
-
-        .modal-content h2 {
-            margin-top: 0;
-            color: #27ae60; 
-            text-align: center;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .info-box, .sazba-box {
-            background-color: #f9f9f9;
-            border-left: 4px solid #27ae60;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 0 5px 5px 0;
-        }
-
-        .sazba-box:last-child, .info-box:last-child {
-            margin-bottom: 0;
-        }
-
-        .sazba-box h3 {
-            margin: 0 0 8px 0;
             font-size: 16px;
-            color: #333;
+            cursor: pointer;
+            margin-top: 10px;
         }
-
-        .sazba-box p {
-            margin: 3px 0;
+        button:disabled { background-color: #555; cursor: not-allowed; }
+        #status {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
             font-size: 14px;
-            color: #555;
         }
-        
-        .sazba-box strong {
-            color: #000;
-        }
-
-        .info-box p {
-            margin: 0;
-            font-size: 15px;
-            color: #333;
-            line-height: 1.5;
-        }
-
-        /* =========================================
-           STYLY PRO MOBILNÍ ZAŘÍZENÍ (TELEFONY)
-           ========================================= */
-        @media (max-width: 768px) {
-            body, html {
-                overflow: auto; 
-                background-color: #000; 
-            }
-
-            .taxi-header {
-                height: auto;
-                min-height: 0; 
-                padding-top: 60vw; 
-                background-size: 100% auto; 
-                background-position: top center; 
-                background-repeat: no-repeat;
-            }
-
-            /* UPRAVENO: Posunutí horních tlačítek více do krajů a nahoru, aby uvolnila střed */
-            .top-left-container {
-                top: 10px;
-                left: 10px;
-            }
-
-            .top-right-container {
-                top: 10px;
-                right: 10px;
-            }
-
-            /* Velikost pro spodní řadu tlačítek */
-            .buttons-container .icon-button {
-                width: 85px; 
-                height: 85px;
-            }
-
-            /* UPRAVENO: Cílené zmenšení průměru pouze pro horní volací tlačítka, aby nezakrývala nonstop */
-            .call-btn, .whatsapp-btn {
-                width: 68px !important;
-                height: 68px !important;
-            }
-
-            /* UPRAVENO: Zmenšení písma v horních tlačítkách, aby se do menšího průměru krásně vešlo */
-            .call-title {
-                font-size: 8.5px;
-                line-height: 1.1;
-            }
-
-            .call-subtitle {
-                font-size: 7px;
-                margin-top: 1px;
-            }
-
-            .buttons-container {
-                position: relative; 
-                bottom: auto;
-                padding: 20px 10px 20px 10px; 
-                box-sizing: border-box;
-                margin-top: 0;
-                gap: 12px;
-            }
-
-            .buttons-container .icon-button:hover {
-                transform: scale(1.1); 
-            }
-        }
+        .skryte { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="taxi-header">
-        <div class="top-left-container">
-            <a href="tel:+420607722555" class="icon-button call-btn">
-                <div class="call-content">
-                    <span class="call-title">Volat<br>dispečink</span>
-                    <span class="call-subtitle">provoz 24/7</span>
-                </div>
-            </a>
+    <div class="admin-container" id="loginSekce">
+        <h1>Přihlášení</h1>
+        <div class="input-group">
+            <label for="heslo">Admin heslo:</label>
+            <input type="password" id="heslo" placeholder="Zadejte heslo">
         </div>
-
-        <div class="top-right-container">
-            <a href="https://wa.me/420773087057" target="_blank" rel="noopener noreferrer" class="icon-button whatsapp-btn">
-                <div class="call-content">
-                    <span class="call-title">WhatsApp<br>volání</span>
-                    <span class="call-subtitle">provoz 24/7</span>
-                </div>
-            </a>
-        </div>
-
-        <div class="buttons-container">
-            <a href="#" onclick="otevriDrink(event)" class="icon-button"><img src="images/Drink.png" alt="Drink"></a>
-            <a href="#" onclick="otevriCenik(event)" class="icon-button"><img src="images/cenik.png" alt="Ceník"></a>
-            <a href="https://domazlicetaxi-tech.github.io/Kalkulacka/" target="_blank" rel="noopener noreferrer" class="icon-button"><img src="images/kalkulacka.png" alt="Kalkulačka"></a>
-            <a href="#" onclick="otevriNakupy(event)" class="icon-button"><img src="images/nakupy.png" alt="Nákupy"></a>
-            <a href="#" onclick="otevriOdtah(event)" class="icon-button"><img src="images/odtah.png" alt="Odtah"></a>
-            <a href="#" onclick="otevriPneu(event)" class="icon-button"><img src="images/pneu.png" alt="Pneu"></a>
-            <a href="galerie.html" class="icon-button"><img src="images/galerie.png" alt="Galerie"></a>
-            <a href="https://wa.me/420607722555" target="_blank" rel="noopener noreferrer" class="icon-button"><img src="images/management.png" alt="Management"></a>
-        </div>
+        <button onclick="zkontrolujHeslo()">Odemknout</button>
     </div>
 
-    <div id="oknoDrink" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-btn" onclick="zavriDrink()">&times;</span>
-            <h2>Drink servis</h2>
-            <div class="info-box">
-                <p><strong>Vy klidně pijte, užívejte si a my odvezeme vás i vaše vozidlo.</strong></p>
-                <p style="margin-top: 10px;">Tato služba spočívá v tom, že po předchozí domluvě vás přijede vyzvednout vozidlo ještě s jedním řidičem, který na vámi zadanou adresu přepraví vaše vozidlo.</p>
-            </div>
+    <div class="admin-container skryte" id="nahravaciSekce">
+        <h1>Nahrát do galerie</h1>
+        <div class="input-group">
+            <label for="fotkaInput">Vyberte fotografii z telefonu:</label>
+            <input type="file" id="fotkaInput" accept="image/*">
         </div>
+        <button id="nahratBtn" onclick="nahrajFotku()">Odeslat na web</button>
+        <div id="status"></div>
     </div>
 
-    <div id="oknoCenik" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-btn" onclick="zavriCenik()">&times;</span>
-            <h2>Ceník jízdného</h2>
-            <div class="sazba-box">
-                <h3>Sazba po městě</h3>
-                <p>Nástupní sazba: <strong>20 Kč</strong></p>
-                <p>Jízdné: <strong>34 Kč / km</strong></p>
-                <p>Čekání: <strong>6 Kč / min</strong></p>
-            </div>
-            <div class="sazba-box">
-                <h3>Sazba mimo město</h3>
-                <p>Nástupní sazba: <strong>20 Kč</strong></p>
-                <p>Jízdné: <strong>26 Kč / km</strong></p>
-                <p>Čekání: <strong>6 Kč / min</strong></p>
-            </div>
-            <div class="sazba-box">
-                <h3>Okružní jízda</h3>
-                <p>Nástupní sazba: <strong>20 Kč</strong></p>
-                <p>Jízdné: <strong>13 Kč / km</strong></p>
-                <p>Čekání: <strong>6 Kč / min</strong></p>
-            </div>
-        </div>
-    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+        import { getDatabase, ref as dbRef, push, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js" 
+        // Oprava importu pro Realtime Database:
+        import { } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    </script>
 
-    <div id="oknoOdtah" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-btn" onclick="zavriOdtah()">&times;</span>
-            <h2>Odtahová služba</h2>
-            <div class="info-box">
-                <p>V případě poruchy vašeho vozidla jsme schopni zabezpečit jeho odtah na vleku a samozřejmě i přepravu jeho posádky.</p>
-            </div>
-        </div>
-    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+        import { getDatabase, ref as dRef, push, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-    <div id="oknoNakupy" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-btn" onclick="zavriNakupy()">&times;</span>
-            <h2>Drobné nákupy s doručením</h2>
-            <div class="info-box">
-                <p>Po dohodě s řidičem vám můžeme zabezpečit drobný nákup zhruba do <strong>1 000 Kč</strong>.</p>
-                <p style="margin-top: 10px;">Za tento nákup bude účtována cena nákupu <strong>plus</strong> cena jízdného a <strong>50 Kč</strong> jednorázový poplatek.</p>
-                <p style="margin-top: 10px;"><em>Vše však záleží na momentální situaci a obsazenosti vozidel.</em></p>
-            </div>
-        </div>
-    </div>
+        // Tvoje upravená Firebase konfigurace s Realtime Database URL
+        const firebaseConfig = {
+            apiKey: "AIzaSyADi4Varza6j_uS8JBMYp9JIwiENIx4_L4",
+            authDomain: "taxi-green-domazlice.firebaseapp.com",
+            projectId: "taxi-green-domazlice",
+            storageBucket: "taxi-green-domazlice.firebasestorage.app",
+            messagingSenderId: "780503611359",
+            appId: "1:780503611359:web:a106c743b759aab644f66a",
+            databaseURL: "https://taxi-green-domazlice-default-rtdb.europe-west1.firebasedatabase.app/"
+        };
 
-    <div id="oknoPneu" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-btn" onclick="zavriPneu()">&times;</span>
-            <h2>Pneuservis / Defekt</h2>
-            <div class="info-box">
-                <p><strong>Máte defekt na pneumatice? Zavolejte nám!</strong></p>
-                <p style="margin-top: 10px;">Pokud to bude v našich silách, zabezpečíme zalepení nebo výměnu pneumatiky. A vy jedete dál!</p>
-                <p style="margin-top: 10px;">Za tuto službu bude účtována <strong>cena jízdného plus cena opravy</strong>, která bude záviset na jejím rozsahu.</p>
-            </div>
-        </div>
-    </div>
+        // Inicializace Firebase
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+        const db = getDatabase(app);
+
+        // Funkce pro nahrání fotky
+        window.nahrajFotku = async function() {
+            const fileInput = document.getElementById('fotkaInput');
+            const statusDiv = document.getElementById('status');
+            const nahratBtn = document.getElementById('nahratBtn');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                statusDiv.innerText = "⚠️ Nejdříve vyberte fotku.";
+                statusDiv.style.color = "#e74c3c";
+                return;
+            }
+
+            statusDiv.innerText = "⏳ Nahrávám fotku...";
+            statusDiv.style.color = "#f39c12";
+            nahratBtn.disabled = true;
+
+            try {
+                // 1. Unikátní název pro soubor v úložišti
+                const unikatniNazev = Date.now() + '-' + file.name;
+                const fileStorageRef = sRef(storage, 'galerie/' + unikatniNazev);
+
+                // 2. Nahrajeme soubor
+                const uploadTask = uploadBytesResumable(fileStorageRef, file);
+
+                uploadTask.on('state_changed', 
+                    null, 
+                    (error) => {
+                        console.error(error);
+                        statusDiv.innerText = "❌ Chyba při ukládání souboru.";
+                        statusDiv.style.color = "#e74c3c";
+                        nahratBtn.disabled = false;
+                    }, 
+                    async () => {
+                        // 3. Získání odkazu na fotku
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+                        // 4. Zápis do Realtime Database
+                        const galerieDbRef = dRef(db, 'fotogalerie');
+                        const novaFotkaRef = push(galerieDbRef);
+                        
+                        await set(novaFotkaRef, {
+                            url: downloadURL,
+                            vytvoreno: serverTimestamp()
+                        });
+
+                        statusDiv.innerText = "✅ Fotka úspěšně přidána na web!";
+                        statusDiv.style.color = "#27ae60";
+                        nahratBtn.disabled = false;
+                        fileInput.value = ""; // Vynulovat výběr
+                    }
+                );
+            } catch (error) {
+                console.error("Chyba:", error);
+                statusDiv.innerText = "❌ Neočekávaná chyba.";
+                statusDiv.style.color = "#e74c3c";
+                nahratBtn.disabled = false;
+            }
+        };
+    </script>
 
     <script>
-        function otevriDrink(udalost) {
-            udalost.preventDefault(); 
-            document.getElementById('oknoDrink').style.display = 'flex';
-        }
-        function zavriDrink() { document.getElementById('oknoDrink').style.display = 'none'; }
-
-        function otevriCenik(udalost) {
-            udalost.preventDefault(); 
-            document.getElementById('oknoCenik').style.display = 'flex';
-        }
-        function zavriCenik() { document.getElementById('oknoCenik').style.display = 'none'; }
-
-        function otevriOdtah(udalost) {
-            udalost.preventDefault(); 
-            document.getElementById('oknoOdtah').style.display = 'flex';
-        }
-        function zavriOdtah() { document.getElementById('oknoOdtah').style.display = 'none'; }
-
-        function otevriNakupy(udalost) {
-            udalost.preventDefault(); 
-            document.getElementById('oknoNakupy').style.display = 'flex';
-        }
-        function zavriNakupy() { document.getElementById('oknoNakupy').style.display = 'none'; }
-
-        function otevriPneu(udalost) {
-            udalost.preventDefault(); 
-            document.getElementById('oknoPneu').style.display = 'flex';
-        }
-        function zavriPneu() { document.getElementById('oknoPneu').style.display = 'none'; }
-
-        window.onclick = function(udalost) {
-            var oknoDrink = document.getElementById('oknoDrink');
-            var oknoCenik = document.getElementById('oknoCenik');
-            var oknoOdtah = document.getElementById('oknoOdtah');
-            var oknoNakupy = document.getElementById('oknoNakupy');
-            var oknoPneu = document.getElementById('oknoPneu');
-            
-            if (udalost.target === oknoDrink) { oknoDrink.style.display = 'none'; }
-            if (udalost.target === oknoCenik) { oknoCenik.style.display = 'none'; }
-            if (udalost.target === oknoOdtah) { oknoOdtah.style.display = 'none'; }
-            if (udalost.target === oknoNakupy) { oknoNakupy.style.display = 'none'; }
-            if (udalost.target === oknoPneu) { oknoPneu.style.display = 'none'; }
+        function zkontrolujHeslo() {
+            const heslo = document.getElementById('heslo').value;
+            // Tady máš nastavené heslo: 26 3654 (můžeš si ho kdykoliv přepsat)
+            if(heslo === "26 3654") {
+                document.getElementById('loginSekce').classList.add('skryte');
+                document.getElementById('nahravaciSekce').classList.remove('skryte');
+            } else {
+                alert("Nesprávné heslo!");
+            }
         }
     </script>
 </body>
