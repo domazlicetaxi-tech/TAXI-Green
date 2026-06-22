@@ -66,7 +66,7 @@
         }
 
         /* =========================================
-           VYSKAKOVACÍ OKNO - CENÍK (MODAL)
+           VYSKAKOVACÍ OKNA (MODALY) - SPOLÉČNÝ STYL
            ========================================= */
         .modal-overlay {
             display: none; 
@@ -119,15 +119,15 @@
             margin-bottom: 20px;
         }
 
-        .sazba-box {
+        .info-box, .sazba-box {
             background-color: #f9f9f9;
             border-left: 4px solid #27ae60;
-            padding: 10px 15px;
+            padding: 15px;
             margin-bottom: 15px;
             border-radius: 0 5px 5px 0;
         }
 
-        .sazba-box:last-child {
+        .sazba-box:last-child, .info-box:last-child {
             margin-bottom: 0;
         }
 
@@ -145,6 +145,13 @@
         
         .sazba-box strong {
             color: #000;
+        }
+
+        .info-box p {
+            margin: 0;
+            font-size: 15px;
+            color: #333;
+            line-height: 1.5;
         }
 
         /* =========================================
@@ -197,7 +204,9 @@
             
             <a href="https://domazlicetaxi-tech.github.io/Kalkulacka/" target="_blank" rel="noopener noreferrer" class="icon-button"><img src="images/kalkulacka.png" alt="Kalkulačka"></a>
             <a href="nakupy.html" class="icon-button"><img src="images/nakupy.png" alt="Nákupy"></a>
-            <a href="odtah.html" class="icon-button"><img src="images/odtah.png" alt="Odtah"></a>
+            
+            <a href="#" onclick="otevriOdtah(event)" class="icon-button"><img src="images/odtah.png" alt="Odtah"></a>
+            
             <a href="pneu.html" class="icon-button"><img src="images/pneu.png" alt="Pneu"></a>
             <a href="galerie.html" class="icon-button"><img src="images/galerie.png" alt="Galerie"></a>
             <a href="management.html" class="icon-button"><img src="images/management.png" alt="Management"></a>
@@ -232,23 +241,48 @@
         </div>
     </div>
 
+    <div id="oknoOdtah" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="zavriOdtah()">&times;</span>
+            <h2>Odtahová služba</h2>
+            
+            <div class="info-box">
+                <p>V případě poruchy jsme schopni zabezpečit odtah vašeho vozidla  na vleku.</p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Otevření okna
+        // --- FUNKCE PRO CENÍK ---
         function otevriCenik(udalost) {
             udalost.preventDefault(); 
             document.getElementById('oknoCenik').style.display = 'flex';
         }
 
-        // Zavření okna křížkem
         function zavriCenik() {
             document.getElementById('oknoCenik').style.display = 'none';
         }
 
-        // Zavření okna kliknutím kamkoliv do tmavého pozadí kolem okna
+        // --- FUNKCE PRO ODTAH ---
+        function otevriOdtah(udalost) {
+            udalost.preventDefault(); 
+            document.getElementById('oknoOdtah').style.display = 'flex';
+        }
+
+        function zavriOdtah() {
+            document.getElementById('oknoOdtah').style.display = 'none';
+        }
+
+        // --- ZAVŘENÍ OKEN KLIKNUTÍM MIMO NĚ ---
         window.onclick = function(udalost) {
-            var okno = document.getElementById('oknoCenik');
-            if (udalost.target === okno) {
-                okno.style.display = 'none';
+            var oknoCenik = document.getElementById('oknoCenik');
+            var oknoOdtah = document.getElementById('oknoOdtah');
+            
+            if (udalost.target === oknoCenik) {
+                oknoCenik.style.display = 'none';
+            }
+            if (udalost.target === oknoOdtah) {
+                oknoOdtah.style.display = 'none';
             }
         }
     </script>
