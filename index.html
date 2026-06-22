@@ -42,17 +42,17 @@
             z-index: 100;
         }
 
-        /* UPRAVENO: Panel posunut úplně dolů k okraji */
+        /* Panel posunut úplně dolů k okraji */
         .buttons-container {
             position: absolute;
-            bottom: 0; /* Tlačí container na samotný spodek */
+            bottom: 0; 
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 15px;
             flex-wrap: wrap; 
-            padding-bottom: 20px; /* Rezerva pro zvětšení (scale) tlačítek při najetí myší */
+            padding-bottom: 20px; 
             box-sizing: border-box;
         }
 
@@ -84,7 +84,6 @@
             display: block;
         }
 
-        /* STYLY PRO NOVÉ TLAČÍTKO VOLÁNÍ */
         .call-btn {
             background-color: #27ae60; 
             color: #ffffff;
@@ -92,7 +91,6 @@
             box-sizing: border-box;
         }
 
-        /* STYL PRO NOVÉ TLAČÍTKO WHATSAPP */
         .whatsapp-btn {
             background-color: #25D366; 
             color: #ffffff;
@@ -211,7 +209,7 @@
         }
 
         /* =========================================
-           NOVÉ STYLY PRO MOBILNÍ ZAŘÍZENÍ (TELEFONY)
+           STYLY PRO MOBILNÍ ZAŘÍZENÍ (TELEFONY)
            ========================================= */
         @media (max-width: 768px) {
             body, html {
@@ -228,17 +226,40 @@
                 background-repeat: no-repeat;
             }
 
+            /* UPRAVENO: Posunutí horních tlačítek více do krajů a nahoru, aby uvolnila střed */
             .top-left-container {
-                top: 15px;
+                top: 10px;
                 left: 10px;
             }
 
             .top-right-container {
-                top: 15px;
+                top: 10px;
                 right: 10px;
             }
 
-            /* UPRAVENO: Zmenšen spodní odstup na mobilech na minimum */
+            /* Velikost pro spodní řadu tlačítek */
+            .buttons-container .icon-button {
+                width: 85px; 
+                height: 85px;
+            }
+
+            /* UPRAVENO: Cílené zmenšení průměru pouze pro horní volací tlačítka, aby nezakrývala nonstop */
+            .call-btn, .whatsapp-btn {
+                width: 68px !important;
+                height: 68px !important;
+            }
+
+            /* UPRAVENO: Zmenšení písma v horních tlačítkách, aby se do menšího průměru krásně vešlo */
+            .call-title {
+                font-size: 8.5px;
+                line-height: 1.1;
+            }
+
+            .call-subtitle {
+                font-size: 7px;
+                margin-top: 1px;
+            }
+
             .buttons-container {
                 position: relative; 
                 bottom: auto;
@@ -248,22 +269,8 @@
                 gap: 12px;
             }
 
-            .icon-button {
-                width: 85px; 
-                height: 85px;
-            }
-
-            .icon-button:hover {
+            .buttons-container .icon-button:hover {
                 transform: scale(1.1); 
-            }
-
-            .call-title {
-                font-size: 10px;
-            }
-
-            .call-subtitle {
-                font-size: 9px;
-                margin-top: 2px;
             }
         }
     </style>
@@ -376,41 +383,31 @@
             udalost.preventDefault(); 
             document.getElementById('oknoDrink').style.display = 'flex';
         }
-        function zavriDrink() {
-            document.getElementById('oknoDrink').style.display = 'none';
-        }
+        function zavriDrink() { document.getElementById('oknoDrink').style.display = 'none'; }
 
         function otevriCenik(udalost) {
             udalost.preventDefault(); 
             document.getElementById('oknoCenik').style.display = 'flex';
         }
-        function zavriCenik() {
-            document.getElementById('oknoCenik').style.display = 'none';
-        }
+        function zavriCenik() { document.getElementById('oknoCenik').style.display = 'none'; }
 
         function otevriOdtah(udalost) {
             udalost.preventDefault(); 
             document.getElementById('oknoOdtah').style.display = 'flex';
         }
-        function zavriOdtah() {
-            document.getElementById('oknoOdtah').style.display = 'none';
-        }
+        function zavriOdtah() { document.getElementById('oknoOdtah').style.display = 'none'; }
 
         function otevriNakupy(udalost) {
             udalost.preventDefault(); 
             document.getElementById('oknoNakupy').style.display = 'flex';
         }
-        function zavriNakupy() {
-            document.getElementById('oknoNakupy').style.display = 'none';
-        }
+        function zavriNakupy() { document.getElementById('oknoNakupy').style.display = 'none'; }
 
         function otevriPneu(udalost) {
             udalost.preventDefault(); 
             document.getElementById('oknoPneu').style.display = 'flex';
         }
-        function zavriPneu() {
-            document.getElementById('oknoPneu').style.display = 'none';
-        }
+        function zavriPneu() { document.getElementById('oknoPneu').style.display = 'none'; }
 
         window.onclick = function(udalost) {
             var oknoDrink = document.getElementById('oknoDrink');
