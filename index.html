@@ -14,7 +14,7 @@
             height: 100%; 
             font-family: sans-serif; 
             overflow: hidden; 
-            background-color: #000; /* Přidáno černé pozadí pro jistotu */
+            background-color: #000; 
         }
 
         .taxi-header {
@@ -70,36 +70,42 @@
            ========================================= */
         @media (max-width: 768px) {
             body, html {
-                overflow: auto; /* DŮLEŽITÉ: Povolí scrollování stránky dolů */
+                overflow: auto; /* Povolí scrollování stránky dolů */
+                background-color: #000; /* Zbytek stránky pod obrázkem bude černý */
             }
 
             .taxi-header {
                 height: auto;
-                min-height: 100vh;
-                /* contain způsobí, že se obrázek neostřihne, ale zmenší se tak, aby byl vidět celý na šířku */
-                background-size: contain; 
+                min-height: 0; /* Zrušíme to, aby pozadí zabíralo 100 % výšky displeje */
+                
+                /* TÍMTO VYTVOŘÍME MÍSTO PRO OBRÁZEK: 
+                   Hodnota 60vw znamená 60 % šířky displeje telefonu.
+                   - Pokud je obrázek zespodu uříznutý, ZVĚTŠI toto číslo (např. na 65vw nebo 70vw).
+                   - Pokud je mezi obrázkem a tlačítky zbytečná černá mezera, ZMENŠI ho (např. na 50vw). */
+                padding-top: 60vw; 
+                
+                background-size: 100% auto; /* Obrázek se roztáhne přesně na šířku displeje a zachová proporce */
+                background-position: top center; /* Přibije obrázek úplně k hornímu okraji */
                 background-repeat: no-repeat;
-                background-position: top center; /* Přichytí obrázek na horní okraj */
             }
 
             .buttons-container {
-                position: relative; /* Zruší fixní ukotvení dole, aby tlačítka mohla plout pod obrázkem */
+                position: relative; /* Zruší pevné přilepení k dolnímu okraji obrazovky */
                 bottom: auto;
-                /* Tento posun (margin-top) zajistí, že tlačítka začnou až pod obrázkem pozadí. 
-                   Hodnota 70vw odpovídá většině formátů fotek. Kdyby tlačítka zasahovala 
-                   do obrázku, hodnotu trochu zvedni (např. na 80vw). */
-                margin-top: 70vw; 
-                padding-bottom: 40px;
-                gap: 12px; /* Mírné zmenšení mezer */
+                width: 100%;
+                padding: 20px 10px 50px 10px; /* Vytvoří hezké mezery okolo tlačítek */
+                box-sizing: border-box;
+                margin-top: 0;
+                gap: 12px;
             }
 
             .icon-button {
-                width: 85px; /* Tlačítka se na mobilu mírně zmenší, aby se jich vedle sebe vešlo více */
+                width: 85px; /* Trochu zmenšená tlačítka pro mobily */
                 height: 85px;
             }
 
             .icon-button:hover {
-                transform: scale(1.15); /* Na dotykovém displeji není potřeba tak agresivní zvětšení */
+                transform: scale(1.1); /* Jemnější zvětšení na dotyk */
             }
         }
     </style>
@@ -110,9 +116,9 @@
         <div class="buttons-container">
             <a href="taxisluzba.html" class="icon-button"><img src="images/taxis.png" alt="Taxi"></a>
             <a href="drinkservis.html" class="icon-button"><img src="images/Drink.png" alt="Drink"></a>
-            <a href="cenik.html" class="icon-button"><img src="images/cenik.png" alt="Cenik"></a>
-            <a href="https://domazlicetaxi-tech.github.io/Kalkulacka/" target="_blank" rel="noopener noreferrer" class="icon-button"><img src="images/kalkulacka.png" alt="Kalkulacka"></a>
-            <a href="nakupy.html" class="icon-button"><img src="images/nakupy.png" alt="Nakupy"></a>
+            <a href="cenik.html" class="icon-button"><img src="images/cenik.png" alt="Ceník"></a>
+            <a href="https://domazlicetaxi-tech.github.io/Kalkulacka/" target="_blank" rel="noopener noreferrer" class="icon-button"><img src="images/kalkulacka.png" alt="Kalkulačka"></a>
+            <a href="nakupy.html" class="icon-button"><img src="images/nakupy.png" alt="Nákupy"></a>
             <a href="odtah.html" class="icon-button"><img src="images/odtah.png" alt="Odtah"></a>
             <a href="pneu.html" class="icon-button"><img src="images/pneu.png" alt="Pneu"></a>
             <a href="galerie.html" class="icon-button"><img src="images/galerie.png" alt="Galerie"></a>
