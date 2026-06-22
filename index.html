@@ -294,11 +294,13 @@
             <a href="#" onclick="otevriCenik(event)" class="icon-button"><img src="images/cenik.png" alt="Ceník"></a>
             
             <a href="https://domazlicetaxi-tech.github.io/Kalkulacka/" target="_blank" rel="noopener noreferrer" class="icon-button"><img src="images/kalkulacka.png" alt="Kalkulačka"></a>
-            <a href="nakupy.html" class="icon-button"><img src="images/nakupy.png" alt="Nákupy"></a>
+            
+            <a href="#" onclick="otevriNakupy(event)" class="icon-button"><img src="images/nakupy.png" alt="Nákupy"></a>
             
             <a href="#" onclick="otevriOdtah(event)" class="icon-button"><img src="images/odtah.png" alt="Odtah"></a>
             
-            <a href="pneu.html" class="icon-button"><img src="images/pneu.png" alt="Pneu"></a>
+            <a href="#" onclick="otevriPneu(event)" class="icon-button"><img src="images/pneu.png" alt="Pneu"></a>
+            
             <a href="galerie.html" class="icon-button"><img src="images/galerie.png" alt="Galerie"></a>
             
             <a href="https://wa.me/420607722555" target="_blank" rel="noopener noreferrer" class="icon-button"><img src="images/management.png" alt="Management"></a>
@@ -356,6 +358,32 @@
         </div>
     </div>
 
+    <div id="oknoNakupy" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="zavriNakupy()">&times;</span>
+            <h2>Drobné nákupy s doručením</h2>
+            
+            <div class="info-box">
+                <p>Po dohodě s řidičem vám můžeme zabezpečit drobný nákup zhruba do <strong>1 000 Kč</strong>.</p>
+                <p style="margin-top: 10px;">Za tento nákup bude účtována cena nákupu <strong>plus</strong> cena jízdného a <strong>50 Kč</strong> jednorázový poplatek.</p>
+                <p style="margin-top: 10px;"><em>Vše však záleží na momentální situaci a obsazenosti vozidel.</em></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="oknoPneu" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="zavriPneu()">&times;</span>
+            <h2>Pneuservis / Defekt</h2>
+            
+            <div class="info-box">
+                <p><strong>Máte defekt na pneumatice? Zavolejte nám!</strong></p>
+                <p style="margin-top: 10px;">Pokud to bude v našich silách, zabezpečíme zalepení nebo výměnu pneumatiky. A vy jedete dál!</p>
+                <p style="margin-top: 10px;">Za tuto službu bude účtována <strong>cena jízdného plus cena opravy</strong>, která bude záviset na jejím rozsahu.</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // --- FUNKCE PRO DRINK SERVIS ---
         function otevriDrink(udalost) {
@@ -387,11 +415,33 @@
             document.getElementById('oknoOdtah').style.display = 'none';
         }
 
+        // --- FUNKCE PRO NÁKUPY ---
+        function otevriNakupy(udalost) {
+            udalost.preventDefault(); 
+            document.getElementById('oknoNakupy').style.display = 'flex';
+        }
+
+        function zavriNakupy() {
+            document.getElementById('oknoNakupy').style.display = 'none';
+        }
+
+        // --- NOVÁ FUNKCE PRO PNEU ---
+        function otevriPneu(udalost) {
+            udalost.preventDefault(); 
+            document.getElementById('oknoPneu').style.display = 'flex';
+        }
+
+        function zavriPneu() {
+            document.getElementById('oknoPneu').style.display = 'none';
+        }
+
         // --- ZAVŘENÍ OKEN KLIKNUTÍM MIMO NĚ ---
         window.onclick = function(udalost) {
             var oknoDrink = document.getElementById('oknoDrink');
             var oknoCenik = document.getElementById('oknoCenik');
             var oknoOdtah = document.getElementById('oknoOdtah');
+            var oknoNakupy = document.getElementById('oknoNakupy');
+            var oknoPneu = document.getElementById('oknoPneu'); // Přidáno okno pneu
             
             if (udalost.target === oknoDrink) {
                 oknoDrink.style.display = 'none';
@@ -401,6 +451,12 @@
             }
             if (udalost.target === oknoOdtah) {
                 oknoOdtah.style.display = 'none';
+            }
+            if (udalost.target === oknoNakupy) {
+                oknoNakupy.style.display = 'none';
+            }
+            if (udalost.target === oknoPneu) {
+                oknoPneu.style.display = 'none'; // Reakce kliknutí pro pneu
             }
         }
     </script>
