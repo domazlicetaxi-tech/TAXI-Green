@@ -69,14 +69,14 @@
            VYSKAKOVACÍ OKNO - CENÍK (MODAL)
            ========================================= */
         .modal-overlay {
-            display: none; /* Skryté ve výchozím stavu */
+            display: none; 
             position: fixed;
             z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Tmavé poloprůhledné pozadí */
+            background-color: rgba(0, 0, 0, 0.7); 
             align-items: center;
             justify-content: center;
         }
@@ -112,7 +112,7 @@
 
         .modal-content h2 {
             margin-top: 0;
-            color: #27ae60; /* Zelená barva ladící k Taxi Green */
+            color: #27ae60; 
             text-align: center;
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
@@ -211,22 +211,22 @@
             
             <div class="sazba-box">
                 <h3>Sazba po městě</h3>
-                <p>Jízdné: <strong>34 Kč / km</strong></p>
                 <p>Nástupní sazba: <strong>20 Kč</strong></p>
+                <p>Jízdné: <strong>34 Kč / km</strong></p>
                 <p>Čekání: <strong>6 Kč / min</strong></p>
             </div>
 
             <div class="sazba-box">
                 <h3>Sazba mimo město</h3>
-                <p>Jízdné: <strong>26 Kč / km</strong></p>
                 <p>Nástupní sazba: <strong>20 Kč</strong></p>
+                <p>Jízdné: <strong>26 Kč / km</strong></p>
                 <p>Čekání: <strong>6 Kč / min</strong></p>
             </div>
 
             <div class="sazba-box">
                 <h3>Okružní jízda</h3>
-                <p>Jízdné: <strong>13 Kč / km</strong></p>
                 <p>Nástupní sazba: <strong>20 Kč</strong></p>
+                <p>Jízdné: <strong>13 Kč / km</strong></p>
                 <p>Čekání: <strong>6 Kč / min</strong></p>
             </div>
         </div>
@@ -235,7 +235,7 @@
     <script>
         // Otevření okna
         function otevriCenik(udalost) {
-            udalost.preventDefault(); // Zabrání odskočení stránky nahoru při kliknutí na odkaz s "#"
+            udalost.preventDefault(); 
             document.getElementById('oknoCenik').style.display = 'flex';
         }
 
