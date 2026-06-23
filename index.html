@@ -16,10 +16,12 @@
         .top-btn:hover { transform: scale(1.15); z-index: 101; }
         .top-btn i { font-size: 38px; z-index: 2; }
         .top-btn svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        
         .buttons-container { position: absolute; bottom: 30px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; padding: 0 10px; box-sizing: border-box; }
         .menu-btn { width: 110px; height: 110px; border-radius: 50%; border: none; background-color: #000; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 0; cursor: pointer; }
         .menu-btn:hover { transform: scale(1.4); z-index: 10; }
         .menu-btn img { width: 100%; height: 100%; object-fit: cover; }
+        
         .modal-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); align-items: center; justify-content: center; }
         .modal-content { background-color: #fff; padding: 25px; border-radius: 12px; width: 85%; max-width: 400px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.5); animation: vyskoceni 0.3s ease-out; }
         @keyframes vyskoceni { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -27,33 +29,42 @@
         .close-btn:hover { color: #000; }
         .modal-content h2 { margin-top: 0; color: #27ae60; text-align: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
         .info-box { background-color: #f9f9f9; border-left: 4px solid #27ae60; padding: 15px; border-radius: 0 5px 5px 0; color: #333; line-height: 1.5; }
+        
         .admin-modal-content { background-color: #222 !important; color: #fff !important; max-height: 85vh; overflow-y: auto; }
         .admin-btn { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
         .admin-input { width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; border: 1px solid #444; background: #333; color: #fff; border-radius: 6px; }
         
-        /* ÚPRAVA PRO MOBILNÍ TELEFONY */
+        /* SPECIÁLNÍ ÚPRAVA PRO MOBILNÍ TELEFONY (Formát 4-4-1 pod obrázkem) */
         @media (max-width: 768px) {
-            body, html { overflow-y: auto; height: auto; min-height: 100%; }
-            .taxi-header { height: auto; min-height: 100vh; }
-            .top-left-container { top: 10px; left: 10px; } .top-right-container { top: 10px; right: 10px; }
-            .top-btn { transform: scale(0.6); }
-            .top-left-container .top-btn { transform-origin: top left; } .top-right-container .top-btn { transform-origin: top right; }
-            .top-btn:hover, .top-btn:active { transform: scale(1.1); z-index: 1000; }
+            body, html { overflow-y: auto !important; height: auto !important; min-height: 100%; }
+            .taxi-header { height: auto !important; min-height: 100vh; display: flex; flex-direction: column; background-size: 100% auto !important; background-position: top center !important; }
             
-            /* Tlačítka odskočí pod logo a přizpůsobí se plynule šířce displeje */
+            .top-left-container { top: 10px; left: 10px; } 
+            .top-right-container { top: 10px; right: 10px; }
+            .top-btn { transform: scale(0.65); }
+            .top-left-container .top-btn { transform-origin: top left; } 
+            .top-right-container .top-btn { transform-origin: top right; }
+            
             .buttons-container { 
-                position: relative; 
-                bottom: auto; 
-                margin-top: 42vh; 
-                gap: 10px; 
-                padding: 0 12px 40px 12px; 
+                position: relative !important; 
+                bottom: auto !important; 
+                /* Odskok, který zajistí, že tlačítka začnou bezpečně až pod grafikou aut */
+                margin-top: 70vw !important; 
+                display: flex !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important; /* Toto vycentruje 9. tlačítko uprostřed */
+                gap: 10px !important; 
+                padding: 10px 10px 40px 10px !important; 
                 box-sizing: border-box; 
+                width: 100% !important;
             } 
-            /* Výpočet zajistí přesně 4 tlačítka v řadě na jakémkoliv telefonu a zachová kruh */
+            
             .menu-btn { 
-                width: calc(25% - 10px); 
-                height: auto; 
-                aspect-ratio: 1 / 1; 
+                /* Výpočet šířky pro PŘESNĚ 4 TLAČÍTKA VEDLE SEBE */
+                width: calc((100% - 30px) / 4) !important; 
+                height: auto !important; 
+                aspect-ratio: 1 / 1 !important; /* Udrží dokonalý kruh */
+                border-radius: 50% !important;
             }
         }
     </style>
@@ -72,6 +83,7 @@
                 <svg viewBox="0 0 100 100"><path id="curveTopWa" d="M 15,50 A 35,35 0 1,1 85,50" fill="none" /><path id="curveBottomWa" d="M 5,50 A 45,45 0 0,0 95,50" fill="none" /><text fill="#fff" font-size="12" font-weight="bold"><textPath href="#curveTopWa" startOffset="50%" text-anchor="middle">WHATSAPP</textPath></text><text fill="#fff" font-size="11" font-weight="bold"><textPath href="#curveBottomWa" startOffset="50%" text-anchor="middle">SLUŽBA 24/7</textPath></text></svg>
             </a>
         </div>
+        
         <div class="buttons-container">
             <a href="#" onclick="otevri('oknoDrink')" class="menu-btn"><img src="images/Drink.png" alt="Drink"></a>
             <a href="#" onclick="otevri('oknoCenik')" class="menu-btn"><img src="images/cenik.png" alt="Ceník"></a>
