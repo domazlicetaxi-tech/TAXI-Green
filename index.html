@@ -98,7 +98,45 @@
     </div>
     
     <div id="oknoDrink" class="modal-overlay"><div class="modal-content"><span class="close-btn" onclick="zavri('oknoDrink')">&times;</span><h2>Drink servis</h2><div class="info-box">Vy klidně pijte, užívejte si a až budete chtít, zavoláte si naši službu Drink servis na čísle 607722555. Tato služba zajistí převoz vašeho vozidla. Přijedou dva řidiči a odvezou vás i vaše vozidlo. Účtována je cesta jízdného dle tarifu plus náklady na druhého řidiče.</div></div></div>
-    <div id="oknoCenik" class="modal-overlay"><div class="modal-content"><span class="close-btn" onclick="zavri('oknoCenik')">&times;</span><h2>Ceník jízdného</h2><div class="info-box">Sazby dle platného tarifu taxi.</div></div></div>
+   <div id="oknoCenik" class="modal-overlay">
+        <div class="modal-content" style="max-width: 420px; max-height: 85vh; overflow-y: auto;">
+            <span class="close-btn" onclick="zavri('oknoCenik')">&times;</span>
+            <h2>Ceník jízdného</h2>
+            
+            <div class="info-box" style="margin-bottom: 15px; background-color: #fcfcfc;">
+                <h3 style="margin: 0 0 10px 0; color: #27ae60; font-size: 17px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-building"></i> Jízda po městě
+                </h3>
+                <table style="width: 100%; border-collapse: collapse; font-size: 14px; color: #333;">
+                    <tr style="border-bottom: 1px dashed #ddd;"><td style="padding: 6px 0;">Nástupní sazba:</td><td style="text-align: right; font-weight: bold; color: #000;">20 Kč</td></tr>
+                    <tr style="border-bottom: 1px dashed #ddd;"><td style="padding: 6px 0;">Cena za km:</td><td style="text-align: right; font-weight: bold; color: #27ae60; font-size: 15px;">34 Kč</td></tr>
+                    <tr><td style="padding: 6px 0;">Čekání (minuta):</td><td style="text-align: right; font-weight: bold; color: #000;">6 Kč</td></tr>
+                </table>
+            </div>
+
+            <div class="info-box" style="margin-bottom: 15px; background-color: #fcfcfc;">
+                <h3 style="margin: 0 0 10px 0; color: #27ae60; font-size: 17px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-road"></i> Jízda mimo město
+                </h3>
+                <table style="width: 100%; border-collapse: collapse; font-size: 14px; color: #333;">
+                    <tr style="border-bottom: 1px dashed #ddd;"><td style="padding: 6px 0;">Nástupní sazba:</td><td style="text-align: right; font-weight: bold; color: #000;">20 Kč</td></tr>
+                    <tr style="border-bottom: 1px dashed #ddd;"><td style="padding: 6px 0;">Cena za km:</td><td style="text-align: right; font-weight: bold; color: #27ae60; font-size: 15px;">26 Kč</td></tr>
+                    <tr><td style="padding: 6px 0;">Čekání (minuta):</td><td style="text-align: right; font-weight: bold; color: #000;">6 Kč</td></tr>
+                </table>
+            </div>
+
+            <div class="info-box" style="background-color: #fcfcfc;">
+                <h3 style="margin: 0 0 10px 0; color: #27ae60; font-size: 17px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-sync-alt"></i> Okružní jízda
+                </h3>
+                <table style="width: 100%; border-collapse: collapse; font-size: 14px; color: #333;">
+                    <tr style="border-bottom: 1px dashed #ddd;"><td style="padding: 6px 0;">Nástupní sazba:</td><td style="text-align: right; font-weight: bold; color: #000;">20 Kč</td></tr>
+                    <tr style="border-bottom: 1px dashed #ddd;"><td style="padding: 6px 0;">Cena za km:</td><td style="text-align: right; font-weight: bold; color: #27ae60; font-size: 15px;">13 Kč</td></tr>
+                    <tr><td style="padding: 6px 0;">Čekání (minuta):</td><td style="text-align: right; font-weight: bold; color: #000;">6 Kč</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
     <div id="oknoNakupy" class="modal-overlay"><div class="modal-content"><span class="close-btn" onclick="zavri('oknoNakupy')">&times;</span><h2>Drobné nákupy</h2><div class="info-box">My nakoupíme a dovezeme vše až k vašim dveřím.</div></div></div>
     <div id="oknoOdtah" class="modal-overlay"><div class="modal-content"><span class="close-btn" onclick="zavri('oknoOdtah')">&times;</span><h2>Odtahová služba</h2><div class="info-box">V případě poruchy nebo nehody vašeho vozidla jsme schopni zajistit jeho odtah.</div></div></div>
     <div id="oknoPneu" class="modal-overlay"><div class="modal-content"><span class="close-btn" onclick="zavri('oknoPneu')">&times;</span><h2>Nonstop Pneuservis</h2><div class="info-box">Defekt na cestě? Jsme tu pro vás non-stop.</div></div></div>
