@@ -75,10 +75,10 @@
             <span class="close-btn" onclick="zavri('oknoKontaktMajitel')">&times;</span>
             <h2>Kontakt na vedení</h2>
             <div class="info-box" style="text-align: center;">
-                <p style="margin-top: 0;">Zde můžete kontaktovat přímo majitele nebo přímo provozovatele.</p>
-                <p style="color: #e74c3c; font-weight: bold;">Prosím užijte pouze chat.</p>
-                <a href="https://wa.me/420607722555" target="_blank" class="admin-btn" style="background-color: #25D366; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: auto; padding: 12px 25px; margin-top: 10px;">
-                    <i class="fab fa-whatsapp" style="font-size: 20px;"></i> WhatsApp chat
+                <p style="margin-top: 0; font-size: 15px;">Zde můžete kontaktovat přímo majitele nebo přímo provozovatele.</p>
+                <p style="color: #e74c3c; font-weight: bold; font-size: 15px; margin-bottom: 20px;">Prosím, užijte výhradně písemnou formu chatu.</p>
+                <a href="https://wa.me/420607722555" target="_blank" class="admin-btn" style="background-color: #25D366; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: auto; padding: 12px 25px; border-radius: 30px;">
+                    <i class="fab fa-whatsapp" style="font-size: 20px;"></i> Spustit WhatsApp Chat
                 </a>
             </div>
         </div>
@@ -102,31 +102,30 @@
         function otevri(id) { document.getElementById(id).style.display = 'flex'; }
         function zavri(id) { document.getElementById(id).style.display = 'none'; }
         
-        // UPRAVENÁ INTELIGENTNÍ FUNKCE PRO TLAČÍTKO MANAGEMENT
+        // NOVÁ VYLEPŠENÁ INTELIGENTNÍ DETEKCE KLIKÁNÍ
         let pocet = 0;
         let klikTimeout;
         function tajnyKlik(e) { 
             e.preventDefault(); 
             pocet++; 
             
-            // Smaže předchozí čekání, pokud uživatel kliká rychle za sebou
+            // Pokaždé zrušíme předchozí časovač, aby se akce nebily
             clearTimeout(klikTimeout); 
             
             if(pocet >= 5) { 
+                // Pokud bylo dosaženo 5 rychlých kliknutí, hned otevřeme administraci
                 otevri('oknoAdmin'); 
                 pocet = 0; 
             } else {
-                // Počkáme 350 milisekund. Pokud nepřijde další klik, otevře se okno pro zákazníka
+                // Pokud uživatel klikat přestal (např. po 1 nebo 2 kliknutích), po 400ms otevřeme zákaznické okno
                 klikTimeout = setTimeout(() => {
-                    if (pocet === 1) {
-                        otevri('oknoKontaktMajitel');
-                    }
-                    pocet = 0; // Vynulování počítadla
-                }, 350);
+                    otevri('oknoKontaktMajitel');
+                    pocet = 0; 
+                }, 400);
             }
         }
         
-        // Přidáno zavírání nového okna kliknutím mimo něj
+        // Podpora zavírání oken kliknutím na tmavé pozadí okolo
         window.onclick = function(e) { if(e.target.className === 'modal-overlay') { zavri('oknoDrink'); zavri('oknoCenik'); zavri('oknoNakupy'); zavri('oknoOdtah'); zavri('oknoPneu'); zavri('oknoAdmin'); zavri('oknoKontaktMajitel'); } }
     </script>
     <script type="module">
