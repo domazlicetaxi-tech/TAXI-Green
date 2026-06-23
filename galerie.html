@@ -7,21 +7,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.min.css">
     <style>
         body { margin: 0; padding: 20px; font-family: sans-serif; background-color: #111; color: #fff; }
-        .back-btn { display: inline-block; padding: 10px 20px; background: #333; color: #fff; text-decoration: none; border-radius: 6px; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
-        .gallery-item { position: relative; cursor: pointer; }
-        .gallery-item img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; }
-        .item-info { font-size: 12px; margin-top: 5px; color: #aaa; }
-        .delete-btn { position: absolute; top: 5px; right: 5px; background: red; border: none; color: white; border-radius: 50%; width: 25px; height: 25px; display: none; }
+        .back-btn { display: inline-block; padding: 12px 24px; background: #27ae60; color: #fff; text-decoration: none; border-radius: 6px; font-weight: bold; margin-bottom: 20px; }
+        
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .gallery-item { position: relative; background: #222; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+        .gallery-item img { width: 100%; height: 200px; object-fit: cover; border-radius: 6px; transition: opacity 0.2s; }
+        .gallery-item img:hover { opacity: 0.9; }
+        
+        .item-info { margin-top: 10px; font-size: 14px; }
+        .item-number { color: #27ae60; font-weight: bold; margin-right: 5px; }
+        .item-text { color: #ddd; }
+
+        .delete-btn { 
+            position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; 
+            border: none; border-radius: 50%; width: 32px; height: 32px; font-weight: bold; 
+            cursor: pointer; display: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); z-index: 5;
+        }
     </style>
 </head>
 <body>
 
-    <a href="index.html" class="back-btn">⬅ Zpět</a>
-    <div style="margin: 15px 0;">
-        <input type="password" id="adminPass" placeholder="Heslo pro správu">
-        <button onclick="checkAdmin()">Ověřit</button>
-    </div>
+    <a href="index.html" class="back-btn">⬅ Zpět na úvod</a>
 
     <div class="gallery-grid" id="pswp-gallery"></div>
 
@@ -30,36 +36,64 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-        const firebaseConfig = { /* VLOŽ SVŮJ CONFIG Z INDEX.HTML */ };
+        const firebaseConfig = { 
+            apiKey: "AIzaSyADi4Varza6j_uS8JBMYp9JIwiENIx4_L4", 
+            authDomain: "taxi-green-domazlice.firebaseapp.com", 
+            projectId: "taxi-green-domazlice", 
+            databaseURL: "https://taxi-green-domazlice-default-rtdb.europe-west1.firebasedatabase.app/" 
+        };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const gallery = document.getElementById('pswp-gallery');
+        const galleryContainer = document.getElementById('pswp-gallery');
 
-        let isAdmin = false;
-        window.checkAdmin = () => { if(document.getElementById('adminPass').value === "26 36 54") isAdmin = true; render(); };
+        // Zkontroluje, zda přichází přihlášený správce z index.html
+        const isAdmin = localStorage.getItem('taxiAdmin') === 'true';
 
-        function render() {
-            onValue(ref(db, 'fotogalerie'), (snapshot) => {
-                const data = snapshot.val() || {};
-                gallery.innerHTML = "";
-                let i = 1;
-                Object.keys(data).forEach(key => {
-                    const f = data[key];
-                    gallery.innerHTML += `
-                        <div class="gallery-item">
-                            <a href="${f.url}" data-pswp-width="1200" data-pswp-height="800" target="_blank">
-                                <img src="${f.url}" alt="Foto ${i}">
-                            </a>
-                            <div class="item-info">Foto č. ${i}</div>
-                            <button class="delete-btn" style="display:${isAdmin?'block':'none'}" onclick="smaz('${key}')">X</button>
-                        </div>`;
-                    i++;
-                });
-                new PhotoSwipeLightbox({ gallery: '#pswp-gallery', children: 'a', pswpModule: () => import('https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.esm.min.js') }).init();
+        // Načítání a automatické řazení dat
+        onValue(ref(db, 'fotogalerie'), (snapshot) => {
+            const data = snapshot.val() || {};
+            galleryContainer.innerHTML = "";
+            
+            // Převod objektu z Firebase na pole, abychom ho mohli seřadit
+            const fotkyPole = Object.keys(data).map(key => ({
+                id: key,
+                ...data[key]
+            }));
+
+            // Seřadit od nejnovější po nejstarší (podle času vytvoření)
+            fotkyPole.sort((a, b) => (b.vytvoreno || 0) - (a.vytvoreno || 0));
+
+            // Vykreslení do mřížky s dynamickým číslováním (bez mezer)
+            fotkyPole.forEach((foto, index) => {
+                const cisloFotky = index + 1;
+                galleryContainer.innerHTML += `
+                    <div class="gallery-item">
+                        <a href="${foto.url}" data-pswp-width="1200" data-pswp-height="900" target="_blank">
+                            <img src="${foto.url}" alt="${foto.popisek || 'Foto ' + cisloFotky}">
+                        </a>
+                        <div class="item-info">
+                            <span class="item-number">#${cisloFotky}</span>
+                            <span class="item-text">${foto.popisek || 'Bez popisku'}</span>
+                        </div>
+                        <button class="delete-btn" style="display: ${isAdmin ? 'block' : 'none'}" onclick="smazFotku('${foto.id}')">X</button>
+                    </div>`;
             });
-        }
-        window.smaz = (key) => { if(confirm("Smazat?")) remove(ref(db, 'fotogalerie/' + key)); };
-        render();
+
+            // Inicializace zvětšování PhotoSwipe
+            const lightbox = new PhotoSwipeLightbox({
+                gallery: '#pswp-gallery',
+                children: 'a',
+                pswpModule: () => import('https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.esm.min.js')
+            });
+            lightbox.init();
+        });
+
+        // Funkce pro mazání (přístupná jen pro admina)
+        window.smazFotku = (id) => {
+            if(confirm("Opravdu chcete smazat tuto fotografii? Ostatní se automaticky přečíslují.")) {
+                remove(ref(db, 'fotogalerie/' + id));
+            }
+        };
     </script>
 </body>
 </html>
