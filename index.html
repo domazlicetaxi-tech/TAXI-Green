@@ -71,7 +71,18 @@
     <div id="oknoPneu" class="modal-overlay"><div class="modal-content"><span class="close-btn" onclick="zavri('oknoPneu')">&times;</span><h2>Nonstop Pneuservis</h2><div class="info-box">Defekt na cestě? Jsme tu pro vás non-stop.</div></div></div>
     <div id="oknoAdmin" class="modal-overlay"><div class="modal-content admin-modal-content"><span class="close-btn" onclick="zavri('oknoAdmin')">&times;</span>
         <div id="loginSekce"><h2>Vstup pro admina</h2><input type="password" id="heslo" class="admin-input" placeholder="Zadejte heslo"><button class="admin-btn" onclick="zkontrolujHeslo()">Odemknout</button></div>
-        <div id="nahravaciSekce" style="display:none;"><h2>Nahrát fotku</h2><input type="file" id="fotkaInput" style="margin-bottom:12px;"><input type="text" id="popisekInput" class="admin-input" placeholder="Popisek fotky..."><button class="admin-btn" onclick="nahrajFotku()">Odeslat do galerie</button><div id="status" style="margin-top:10px; font-weight:bold; text-align:center;"></div></div>
+        <div id="nahravaciSekce" style="display:none;">
+            <h2>Nahrát fotku</h2>
+            <input type="file" id="fotkaInput" style="margin-bottom:12px;">
+            <input type="text" id="popisekInput" class="admin-input" placeholder="Popisek fotky...">
+            <button class="admin-btn" onclick="nahrajFotku()">Odeslat do galerie</button>
+            <div id="status" style="margin-top:10px; font-weight:bold; text-align:center;"></div>
+            
+            <div id="seznamFotekAdmin" style="margin-top:20px; max-height:200px; overflow-y:auto; border-top:1px solid #444; padding-top:15px;">
+                <h3 style="font-size:16px; color:#27ae60; margin-bottom:10px;">Správa existujících fotek</h3>
+                <div id="seznamVnitrek" style="display:flex; flex-direction:column; gap:8px;"></div>
+            </div>
+        </div>
     </div></div>
     <script>
         function otevri(id) { document.getElementById(id).style.display = 'flex'; }
@@ -82,13 +93,15 @@
     </script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getDatabase, ref, push, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        // PŘIDÁNY FUNKCE onValue A remove PRO PRÁCI S DATABÁZÍ
+        import { getDatabase, ref, push, set, serverTimestamp, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
         import { getAuth, signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         const firebaseConfig = { apiKey: "AIzaSyADi4Varza6j_uS8JBMYp9JIwiENIx4_L4", authDomain: "taxi-green-domazlice.firebaseapp.com", projectId: "taxi-green-domazlice", databaseURL: "https://taxi-green-domazlice-default-rtdb.europe-west1.firebasedatabase.app/" };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const auth = getAuth(app);
         setPersistence(auth, browserLocalPersistence);
+        
         window.zkontrolujHeslo = async function() {
             const hesloInput = document.getElementById('heslo').value;
             const email = "admin@taxigreen.cz";
@@ -97,8 +110,12 @@
                 localStorage.setItem('taxiAdmin', 'true');
                 document.getElementById('loginSekce').style.display = 'none';
                 document.getElementById('nahravaciSekce').style.display = 'block';
+                
+                // PO ÚSPĚŠNÉM PŘIHLÁŠENÍ NAČTEME SEZNAM FOTEK K MAZÁNÍ
+                nactiFotkyProMazani();
             } catch (error) { alert("⚠️ Nesprávné heslo!"); }
         };
+
         window.nahrajFotku = async function() {
             const file = document.getElementById('fotkaInput').files[0];
             const popisek = document.getElementById('popisekInput').value.trim();
@@ -118,6 +135,55 @@
                     document.getElementById('popisekInput').value = "";
                 }
             } catch (error) { statusDiv.innerText = "❌ Chyba nahrávání."; }
+        };
+
+        // NOVÁ FUNKCE: NAČTENÍ FOTEK DO ADMIN PANELU
+        function nactiFotkyProMazani() {
+            const fotkyRef = ref(db, 'fotogalerie');
+            onValue(fotkyRef, (snapshot) => {
+                const vnitrekDiv = document.getElementById('seznamVnitrek');
+                vnitrekDiv.innerHTML = '';
+                const data = snapshot.val();
+                
+                if (!data) {
+                    vnitrekDiv.innerHTML = '<p style="font-size:13px; color:#888; text-align:center;">Žádné fotky v galerii.</p>';
+                    return;
+                }
+                
+                for (let id in data) {
+                    const fotka = data[id];
+                    const radek = document.createElement('div');
+                    radek.style.display = 'flex';
+                    radek.style.alignItems = 'center';
+                    radek.style.justifyContent = 'space-between';
+                    radek.style.background = '#333';
+                    radek.style.padding = '6px';
+                    radek.style.borderRadius = '6px';
+                    
+                    radek.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <img src="${fotka.url}" style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
+                            <span style="font-size:12px; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                                ${fotka.popisek ? fotka.popisek : 'Bez popisku'}
+                            </span>
+                        </div>
+                        <button onclick="smazFotku('${id}')" style="background:#e74c3c; color:white; border:none; padding: 5px 10px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:bold;">Smazat</button>
+                    `;
+                    vnitrekDiv.appendChild(radek);
+                }
+            });
+        }
+
+        // NOVÁ FUNKCE: SMAZÁNÍ FOTKY Z FIREBASE
+        window.smazFotku = async function(id) {
+            if(confirm("Opravdu chcete tuto fotku trvale odstranit z galerie?")) {
+                try {
+                    await remove(ref(db, 'fotogalerie/' + id));
+                    // Seznam se sám automaticky překreslí díky funkci onValue
+                } catch (error) {
+                    alert("❌ Nepodařilo se smazat fotku.");
+                }
+            }
         };
     </script>
 </body>
