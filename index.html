@@ -28,12 +28,12 @@
             border-radius: 50%; border: 2px solid #fff;
             display: flex; align-items: center; justify-content: center;
             text-decoration: none; color: #fff; cursor: pointer; 
-            transition: transform 0.3s, cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
         .call-bg { background-color: #27ae60; }
         .wa-bg { background-color: #25D366; }
-        .top-btn:hover { transform: scale(1.3); z-index: 101; }
+        .top-btn:hover { transform: scale(1.15); z-index: 101; }
         .top-btn i { font-size: 38px; z-index: 2; }
         .top-btn svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
 
@@ -63,16 +63,20 @@
         .admin-btn { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
         .admin-input { width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; border: 1px solid #444; background: #333; color: #fff; border-radius: 6px; }
 
-        /* MOBILNÍ OPTIMALIZACE */
+        /* MOBILNÍ OPTIMALIZACE - Oprava zvětšování tlačítek */
         @media (max-width: 768px) {
-            .top-left-container { top: 5px; left: 5px; }
-            .top-right-container { top: 5px; right: 5px; }
-            /* V klidu miniaturní, aby nepřekážela nápisu */
-            .top-btn { width: 50px; height: 50px; }
-            .top-btn i { font-size: 18px; }
-            .top-btn svg { transform: scale(0.65); transform-origin: center; }
-            /* Při aktivaci/podržení se zvětší pro čitelnost */
-            .top-btn:hover, .top-btn:active { transform: scale(1.5); z-index: 1000; }
+            .top-left-container { top: 10px; left: 10px; }
+            .top-right-container { top: 10px; right: 10px; }
+            
+            /* Tlačítko se zmenší jako celek (opticky na 60%), neztratí proporce */
+            .top-btn { transform: scale(0.6); }
+            
+            /* Ukotvíme bod zvětšování do rohů obrazovky */
+            .top-left-container .top-btn { transform-origin: top left; }
+            .top-right-container .top-btn { transform-origin: top right; }
+            
+            /* Při dotyku na mobilu se celé tlačítko plynule zvětší (vrátí se do 100% velikosti) */
+            .top-btn:hover, .top-btn:active { transform: scale(1.1); z-index: 1000; }
             
             .buttons-container { bottom: 15px; gap: 10px; }
             .menu-btn { width: 85px; height: 85px; }
@@ -83,7 +87,6 @@
 
     <div class="taxi-header">
         
-        <!-- Tlačítko Volat -->
         <div class="top-left-container">
             <a href="tel:+420607722555" class="top-btn call-bg">
                 <i class="fas fa-phone"></i>
@@ -96,7 +99,6 @@
             </a>
         </div>
 
-        <!-- Tlačítko WhatsApp -->
         <div class="top-right-container">
             <a href="https://wa.me/420773087057" target="_blank" class="top-btn wa-bg">
                 <i class="fab fa-whatsapp"></i>
@@ -109,7 +111,6 @@
             </a>
         </div>
 
-        <!-- Spodní menu -->
         <div class="buttons-container">
             <a href="#" onclick="otevri('oknoDrink')" class="menu-btn"><img src="images/Drink.png" alt="Drink"></a>
             <a href="#" onclick="otevri('oknoCenik')" class="menu-btn"><img src="images/cenik.png" alt="Ceník"></a>
@@ -122,14 +123,12 @@
         </div>
     </div>
 
-    <!-- VYSKAKOVACÍ OKNA -->
     <div id="oknoDrink" class="modal-overlay"><div class="modal-content"><span class="close-btn" onclick="zavri('oknoDrink')">&times;</span><h2>Drink servis</h2><div class="info-box">Vy klidně pijte, užívejte si a my odvezeme vás i vaše vozidlo.</div></div></div>
     <div id="oknoCenik" class="modal-overlay"><div class="modal-content"><span class="close-btn" onclick="zavri('oknoCenik')">&times;</span><h2>Ceník jízdného</h2><div class="info-box">Sazby dle platného tarifu taxi.</div></div></div>
     <div id="oknoNakupy" class="modal-overlay"><div class="modal-content"><span class="close-btn" onclick="zavri('oknoNakupy')">&times;</span><h2>Drobné nákupy</h2><div class="info-box">My nakoupíme a dovezeme vše až k vašim dveřím.</div></div></div>
     <div id="oknoOdtah" class="modal-overlay"><div class="modal-content"><span class="close-btn" onclick="zavri('oknoOdtah')">&times;</span><h2>Odtahová služba</h2><div class="info-box">V případě poruchy nebo nehody vašeho vozidla jsme schopni zajistit jeho odtah.</div></div></div>
     <div id="oknoPneu" class="modal-overlay"><div class="modal-content"><span class="close-btn" onclick="zavri('oknoPneu')">&times;</span><h2>Nonstop Pneuservis</h2><div class="info-box">Defekt na cestě? Jsme tu pro vás non-stop.</div></div></div>
 
-    <!-- ADMIN PANEL -->
     <div id="oknoAdmin" class="modal-overlay"><div class="modal-content admin-modal-content"><span class="close-btn" onclick="zavri('oknoAdmin')">&times;</span>
         <div id="loginSekce"><h2>Vstup pro admina</h2><input type="password" id="heslo" class="admin-input" placeholder="Zadejte heslo"><button class="admin-btn" onclick="zkontrolujHeslo()">Odemknout</button></div>
         <div id="nahravaciSekce" style="display:none;">
@@ -160,7 +159,7 @@
         
         function zkontrolujHeslo() {
             if (document.getElementById('heslo').value === "26 36 54") {
-                localStorage.setItem('taxiAdmin', 'true'); // Zapamatovat přihlášení admina
+                localStorage.setItem('taxiAdmin', 'true'); 
                 document.getElementById('loginSekce').style.display = 'none';
                 document.getElementById('nahravaciSekce').style.display = 'block';
             } else { alert("⚠️ Nesprávné heslo!"); }
@@ -189,6 +188,7 @@
             
             if(!file) { statusDiv.innerText = "⚠️ Vyberte fotku."; return; }
             statusDiv.innerText = "⏳ Nahrávám...";
+            statusDiv.style.color = "#f39c12";
             
             try {
                 const formData = new FormData();
@@ -198,13 +198,16 @@
                 
                 if (vysledek.success) {
                     const novaFotkaRef = push(ref(db, 'fotogalerie'));
-                    // Uložíme URL, Popisek i Čas nahrání
                     await set(novaFotkaRef, { url: vysledek.data.url, popisek: popisek, vytvoreno: serverTimestamp() });
                     statusDiv.innerText = "✅ Nahráno úspěšně!";
+                    statusDiv.style.color = "#27ae60";
                     document.getElementById('fotkaInput').value = "";
                     document.getElementById('popisekInput').value = "";
                 }
-            } catch (error) { statusDiv.innerText = "❌ Chyba nahrávání."; }
+            } catch (error) { 
+                statusDiv.innerText = "❌ Chyba nahrávání."; 
+                statusDiv.style.color = "#e74c3c";
+            }
         };
     </script>
 </body>
