@@ -3,58 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galerie - Taxi Green Domažlice</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.min.css">
+    <title>Fotogalerie - Taxi Green Domažlice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { margin: 0; padding: 20px; font-family: sans-serif; background-color: #111; color: #fff; }
-        .back-btn { display: inline-block; padding: 12px 24px; background: #27ae60; color: #fff; text-decoration: none; border-radius: 6px; font-weight: bold; margin-bottom: 20px; }
-        #loading { text-align: center; margin-top: 50px; font-size: 20px; color: #27ae60; font-weight: bold; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .gallery-item { position: relative; background: #222; padding: 10px; border-radius: 8px; }
-        .gallery-item img { width: 100%; height: 200px; object-fit: cover; border-radius: 6px; }
+        body, html { margin: 0; padding: 0; min-height: 100%; background-color: #000; color: #fff; font-family: sans-serif; }
+        
+        /* Horní lišta s počítadlem */
+        .header-bar { display: flex; align-items: center; padding: 20px; background: #111; border-bottom: 2px solid #27ae60; position: sticky; top: 0; z-index: 100; }
+        .back-btn { display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; font-weight: bold; background: #27ae60; padding: 10px 20px; border-radius: 20px; transition: background 0.2s; }
+        .back-btn:hover { background: #219653; }
+        .gallery-title { margin-left: 20px; font-size: 24px; margin-top: 0; margin-bottom: 0; flex-grow: 1; text-align: center; color: #27ae60; }
+        .gallery-counter { font-size: 16px; color: #aaa; background: #222; padding: 8px 15px; border-radius: 15px; border: 1px solid #333; }
+        
+        /* Mřížka galerie - responzivní */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 30px; max-width: 1400px; margin: 0 auto; }
+        .gallery-item { background: #111; border-radius: 12px; overflow: hidden; border: 1px solid #222; transition: transform 0.3s, border-color 0.3s; cursor: pointer; display: flex; flex-direction: column; }
+        .gallery-item:hover { transform: translateY(-5px); border-color: #27ae60; box-shadow: 0 8px 20px rgba(39, 174, 96, 0.2); }
+        
+        /* Kontejner zajistí, že se fotky na PC NEOŘÍZNOU */
+        .img-container { width: 100%; height: 220px; background: #050505; display: flex; align-items: center; justify-content: center; }
+        .gallery-item img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        
+        /* Popisky pod miniaturou */
+        .item-info { padding: 12px; font-size: 14px; color: #ccc; text-align: center; border-top: 1px solid #222; background: #151515; display: flex; justify-content: space-between; align-items: center; }
+        .item-number { font-weight: bold; color: #27ae60; font-size: 12px; background: #000; padding: 3px 8px; border-radius: 10px; }
+        .item-caption { flex-grow: 1; margin: 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        /* Lightbox - Plné zvětšení na displej počítače */
+        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 2000; justify-content: center; align-items: center; user-select: none; }
+        .lightbox-content { position: relative; max-width: 90vw; max-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+        .lightbox-img { max-width: 100%; max-height: 80vh; object-fit: contain; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
+        .lightbox-caption { margin-top: 15px; font-size: 16px; color: #fff; text-align: center; max-width: 600px; font-weight: 500; }
+        .lightbox-counter { position: absolute; top: -40px; left: 0; font-size: 18px; color: #27ae60; font-weight: bold; }
+        
+        .close-lightbox { position: absolute; top: -45px; right: 0; font-size: 35px; color: #fff; cursor: pointer; transition: color 0.2s; line-height: 1; }
+        .close-lightbox:hover { color: #e74c3c; }
+        
+        /* Klávesy/Šipky na obrazovce pro PC */
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-size: 24px; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s, color 0.2s; z-index: 2100; }
+        .nav-btn:hover { background: #27ae60; color: #fff; }
+        .prev-btn { left: -80px; }
+        .next-btn { right: -80px; }
+
+        /* Optimalizace pro menší obrazovky (mobil/tablet) */
+        @media (max-width: 900px) {
+            .prev-btn { left: 10px; width: 45px; height: 45px; font-size: 18px; }
+            .next-btn { right: 10px; width: 45px; height: 45px; font-size: 18px; }
+            .lightbox-content { max-width: 95vw; }
+            .lightbox-counter { left: 10px; top: -35px; }
+            .close-lightbox { right: 10px; top: -40px; }
+        }
     </style>
 </head>
 <body>
-    <a href="index.html" class="back-btn">⬅ Zpět na úvod</a>
-    <div id="loading">⏳ Načítám fotografie...</div>
-    <div class="gallery-grid" id="pswp-gallery"></div>
+
+    <div class="header-bar">
+        <a href="web.html" class="back-btn"><i class="fas fa-arrow-left"></i> Zpět</a>
+        <h1 class="gallery-title">Fotogalerie Taxi Green</h1>
+        <div class="gallery-counter" id="celkovyPocet">Celkem: 0 fotek</div>
+    </div>
+
+    <div class="gallery-grid" id="galerieGrid"></div>
+
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <span class="close-lightbox" onclick="zavriLightbox()">&times;</span>
+            <div class="lightbox-counter" id="lightboxCislo">0 / 0</div>
+            
+            <button class="nav-btn prev-btn" onclick="predchoziFotka()"><i class="fas fa-chevron-left"></i></button>
+            <img src="" alt="Zvětšená fotka" class="lightbox-img" id="lightboxImg">
+            <button class="nav-btn next-btn" onclick="dalsiFotka()"><i class="fas fa-chevron-right"></i></button>
+            
+            <div class="lightbox-caption" id="lightboxPopisek"></div>
+        </div>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
+        
+        // Použití stejné konfigurace jako ve tvém hlavním souboru web.html
         const firebaseConfig = { 
             apiKey: "AIzaSyADi4Varza6j_uS8JBMYp9JIwiENIx4_L4", 
             authDomain: "taxi-green-domazlice.firebaseapp.com", 
             projectId: "taxi-green-domazlice", 
             databaseURL: "https://taxi-green-domazlice-default-rtdb.europe-west1.firebasedatabase.app/" 
         };
+        
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         
-        const galleryContainer = document.getElementById('pswp-gallery');
-        const loadingDiv = document.getElementById('loading');
+        let fotkyPole = [];
+        let aktualniIndex = 0;
 
-        // Načtení dat
+        const grid = document.getElementById('galerieGrid');
+        const celkovyPocetDiv = document.getElementById('celkovyPocet');
+
+        // Živé načítání fotek z Firebase RTDB
         onValue(ref(db, 'fotogalerie'), (snapshot) => {
-            loadingDiv.style.display = 'none';
+            grid.innerHTML = '';
+            fotkyPole = [];
             const data = snapshot.val();
             
             if (!data) {
-                galleryContainer.innerHTML = "<p style='text-align:center;'>Zatím zde nejsou žádné fotografie.</p>";
+                grid.innerHTML = '<p style="text-align:center; width:100%; grid-column:1/-1; color:#888;">Galerie neobsahuje žádné fotografie.</p>';
+                celkovyPocetDiv.innerText = "Celkem: 0 fotek";
                 return;
             }
 
-            galleryContainer.innerHTML = "";
-            Object.values(data).forEach((foto) => {
-                galleryContainer.innerHTML += `
-                    <div class="gallery-item">
-                        <img src="${foto.url}" alt="Taxi foto">
-                        <p style="font-size:12px; margin-top:5px;">${foto.popisek || ''}</p>
-                    </div>`;
+            // Převedení objektu na indexované pole pro snadné řazení a počítání
+            for (let id in data) {
+                fotkyPole.push({ id: id, ...data[id] });
+            }
+            
+            // Seřazení chronologicky od nejstarší po nejnovější (aby čísla dávala smysl tak, jak přibývají)
+            fotkyPole.sort((a, b) => (a.vytvoreno || 0) - (b.vytvoreno || 0));
+
+            // Aktualizace celkového počítadla v liště
+            celkovyPocetDiv.innerText = `Celkem: ${fotkyPole.length} fotek`;
+
+            // Generování HTML prvků pro mřížku
+            fotkyPole.forEach((fotka, index) => {
+                const polozka = document.createElement('div');
+                polozka.className = 'gallery-item';
+                polozka.onclick = () => otevriLightbox(index);
+                
+                polozka.innerHTML = `
+                    <div class="img-container">
+                        <img src="${fotka.url}" alt="${fotka.popisek || 'Fotka Taxi Green'}">
+                    </div>
+                    <div class="item-info">
+                        <span class="item-number">#${index + 1}</span>
+                        <span class="item-caption">${fotka.popisek || 'Bez popisku'}</span>
+                    </div>
+                `;
+                grid.appendChild(polozka);
             });
-        }, (error) => {
-            loadingDiv.innerText = "❌ Chyba: " + error.message;
+
+            // Ochrana: Pokud je lightbox otevřený a admin zrovna smaže fotku, přepočítáme zobrazení
+            if (document.getElementById('lightbox').style.display === 'flex') {
+                if (aktualniIndex >= fotkyPole.length) {
+                    aktualniIndex = fotkyPole.length - 1;
+                }
+                if (fotkyPole.length > 0) {
+                    aktualizujLightbox();
+                } else {
+                    zavriLightbox();
+                }
+            }
+        });
+
+        // Ovládání a logika Lightboxu
+        window.otevriLightbox = function(index) {
+            aktualniIndex = index;
+            document.getElementById('lightbox').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Zamezí scrollování stránky v pozadí
+            aktualizujLightbox();
+        }
+
+        window.zavriLightbox = function() {
+            document.getElementById('lightbox').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function aktualizujLightbox() {
+            const fotka = fotkyPole[aktualniIndex];
+            if (!fotka) return;
+            
+            document.getElementById('lightboxImg').src = fotka.url;
+            document.getElementById('lightboxPopisek').innerText = fotka.popisek || '';
+            document.getElementById('lightboxCislo').innerText = `${aktualniIndex + 1} / ${fotkyPole.length}`;
+        }
+
+        window.dalsiFotka = function() {
+            if (fotkyPole.length === 0) return;
+            aktualniIndex = (aktualniIndex + 1) % fotkyPole.length; // Po poslední skočí na první
+            aktualizujLightbox();
+        }
+
+        window.predchoziFotka = function() {
+            if (fotkyPole.length === 0) return;
+            aktualniIndex = (aktualniIndex - 1 + fotkyPole.length) % fotkyPole.length; // Z první skočí na poslední
+            aktualizujLightbox();
+        }
+
+        // Ovládání klávesovými šipkami a klávesou ESC
+        window.addEventListener('keydown', (e) => {
+            if (document.getElementById('lightbox').style.display !== 'flex') return;
+            
+            if (e.key === 'ArrowRight') {
+                dalsiFotka();
+            } else if (e.key === 'ArrowLeft') {
+                predchoziFotka();
+            } else if (e.key === 'Escape') {
+                zavriLightbox();
+            }
+        });
+
+        // Zavření kliknutím na černé pozadí mimo fotku a ovládací prvky
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                zavriLightbox();
+            }
         });
     </script>
 </body>
