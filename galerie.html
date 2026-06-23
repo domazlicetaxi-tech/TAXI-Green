@@ -15,43 +15,49 @@
         .gallery-title { margin-left: 20px; font-size: 24px; margin-top: 0; margin-bottom: 0; flex-grow: 1; text-align: center; color: #27ae60; }
         .gallery-counter { font-size: 16px; color: #aaa; background: #222; padding: 8px 15px; border-radius: 15px; border: 1px solid #333; }
         
-        /* Mřížka galerie - responzivní */
+        /* Mřížka galerie */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 30px; max-width: 1400px; margin: 0 auto; }
         .gallery-item { background: #111; border-radius: 12px; overflow: hidden; border: 1px solid #222; transition: transform 0.3s, border-color 0.3s; cursor: pointer; display: flex; flex-direction: column; }
         .gallery-item:hover { transform: translateY(-5px); border-color: #27ae60; box-shadow: 0 8px 20px rgba(39, 174, 96, 0.2); }
         
-        /* Kontejner zajistí, že se fotky na PC NEOŘÍZNOU */
-        .img-container { width: 100%; height: 220px; background: #050505; display: flex; align-items: center; justify-content: center; }
-        .gallery-item img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        /* Kontejner pro náhledy - zajišťuje, že se fotky NEOŘÍZNOU a nemají kulaté rohy */
+        .img-container { width: 100%; height: 250px; background: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .gallery-item img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 0 !important; }
         
-        /* Popisky pod miniaturou */
-        .item-info { padding: 12px; font-size: 14px; color: #ccc; text-align: center; border-top: 1px solid #222; background: #151515; display: flex; justify-content: space-between; align-items: center; }
-        .item-number { font-weight: bold; color: #27ae60; font-size: 12px; background: #000; padding: 3px 8px; border-radius: 10px; }
-        .item-caption { flex-grow: 1; margin: 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        /* Informace pod miniaturou */
+        .item-info { padding: 12px; font-size: 14px; color: #ccc; text-align: center; border-top: 1px solid #222; background: #151515; display: flex; flex-direction: column; gap: 5px; }
+        .item-meta { display: flex; justify-content: space-between; width: 100%; font-size: 12px; color: #888; }
+        .item-number { font-weight: bold; color: #27ae60; background: #000; padding: 2px 6px; border-radius: 4px; }
+        .item-caption { font-weight: 500; color: #fff; margin-top: 5px; word-break: break-word; text-align: left; }
 
-        /* Lightbox - Plné zvětšení na displej počítače */
-        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 2000; justify-content: center; align-items: center; user-select: none; }
-        .lightbox-content { position: relative; max-width: 90vw; max-height: 85vh; display: flex; flex-direction: column; align-items: center; }
-        .lightbox-img { max-width: 100%; max-height: 80vh; object-fit: contain; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
-        .lightbox-caption { margin-top: 15px; font-size: 16px; color: #fff; text-align: center; max-width: 600px; font-weight: 500; }
-        .lightbox-counter { position: absolute; top: -40px; left: 0; font-size: 18px; color: #27ae60; font-weight: bold; }
+        /* LIGHTBOX - Zvětšení na celou obrazovku */
+        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2000; justify-content: center; align-items: center; user-select: none; }
+        .lightbox-content { position: relative; width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         
-        .close-lightbox { position: absolute; top: -45px; right: 0; font-size: 35px; color: #fff; cursor: pointer; transition: color 0.2s; line-height: 1; }
+        /* Fotka v lightboxu na max displeje bez ořezu a bez zakulacení */
+        .lightbox-img { max-width: 100vw; max-height: 80vh; object-fit: contain; border-radius: 0 !important; }
+        
+        /* Informační texty v lightboxu */
+        .lightbox-bottom { position: absolute; bottom: 20px; left: 0; width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 5px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding-bottom: 20px; }
+        .lightbox-caption { font-size: 18px; color: #fff; max-width: 80%; font-weight: bold; }
+        .lightbox-date { font-size: 14px; color: #888; }
+        .lightbox-counter { position: absolute; top: 20px; left: 20px; font-size: 18px; color: #27ae60; font-weight: bold; background: rgba(0,0,0,0.6); padding: 5px 12px; border-radius: 10px; }
+        
+        /* Zavírací tlačítko */
+        .close-lightbox { position: absolute; top: 15px; right: 20px; font-size: 40px; color: #fff; cursor: pointer; transition: color 0.2s; line-height: 1; z-index: 2200; background: rgba(0,0,0,0.4); width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
         .close-lightbox:hover { color: #e74c3c; }
         
-        /* Klávesy/Šipky na obrazovce pro PC */
-        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-size: 24px; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s, color 0.2s; z-index: 2100; }
-        .nav-btn:hover { background: #27ae60; color: #fff; }
-        .prev-btn { left: -80px; }
-        .next-btn { right: -80px; }
+        /* Šipky na PC */
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-size: 24px; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; z-index: 2100; }
+        .nav-btn:hover { background: #27ae60; }
+        .prev-btn { left: 30px; }
+        .next-btn { right: 30px; }
 
-        /* Optimalizace pro menší obrazovky (mobil/tablet) */
-        @media (max-width: 900px) {
-            .prev-btn { left: 10px; width: 45px; height: 45px; font-size: 18px; }
-            .next-btn { right: 10px; width: 45px; height: 45px; font-size: 18px; }
-            .lightbox-content { max-width: 95vw; }
-            .lightbox-counter { left: 10px; top: -35px; }
-            .close-lightbox { right: 10px; top: -40px; }
+        /* Skrytí šipek na mobilech (tam se používá přejíždění prstem) */
+        @media (max-width: 768px) {
+            .nav-btn { display: none; }
+            .gallery-grid { padding: 15px; gap: 15px; }
+            .lightbox-caption { font-size: 15px; }
         }
     </style>
 </head>
@@ -74,7 +80,10 @@
             <img src="" alt="Zvětšená fotka" class="lightbox-img" id="lightboxImg">
             <button class="nav-btn next-btn" onclick="dalsiFotka()"><i class="fas fa-chevron-right"></i></button>
             
-            <div class="lightbox-caption" id="lightboxPopisek"></div>
+            <div class="lightbox-bottom">
+                <div class="lightbox-caption" id="lightboxPopisek"></div>
+                <div class="lightbox-date" id="lightboxDatum"></div>
+            </div>
         </div>
     </div>
 
@@ -82,7 +91,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
         
-        // Použití stejné konfigurace jako ve tvém hlavním souboru web.html
         const firebaseConfig = { 
             apiKey: "AIzaSyADi4Varza6j_uS8JBMYp9JIwiENIx4_L4", 
             authDomain: "taxi-green-domazlice.firebaseapp.com", 
@@ -99,7 +107,7 @@
         const grid = document.getElementById('galerieGrid');
         const celkovyPocetDiv = document.getElementById('celkovyPocet');
 
-        // Živé načítání fotek z Firebase RTDB
+        // Načítání a řazení dat z Firebase
         onValue(ref(db, 'fotogalerie'), (snapshot) => {
             grid.innerHTML = '';
             fotkyPole = [];
@@ -111,36 +119,38 @@
                 return;
             }
 
-            // Převedení objektu na indexované pole pro snadné řazení a počítání
             for (let id in data) {
                 fotkyPole.push({ id: id, ...data[id] });
             }
             
-            // Seřazení chronologicky od nejstarší po nejnovější (aby čísla dávala smysl tak, jak přibývají)
+            // Řazení podle času vytvoření (od nejstarší po nejnovější)
             fotkyPole.sort((a, b) => (a.vytvoreno || 0) - (b.vytvoreno || 0));
-
-            // Aktualizace celkového počítadla v liště
             celkovyPocetDiv.innerText = `Celkem: ${fotkyPole.length} fotek`;
 
-            // Generování HTML prvků pro mřížku
             fotkyPole.forEach((fotka, index) => {
+                // Převod časového razítka na čitelný formát data
+                const datumText = fotka.vytvoreno ? new Date(fotka.vytvoreno).toLocaleDateString('cs-CZ') : 'Neznámé datum';
+                
                 const polozka = document.createElement('div');
                 polozka.className = 'gallery-item';
                 polozka.onclick = () => otevriLightbox(index);
                 
                 polozka.innerHTML = `
                     <div class="img-container">
-                        <img src="${fotka.url}" alt="${fotka.popisek || 'Fotka Taxi Green'}">
+                        <img src="${fotka.url}" alt="Foto">
                     </div>
                     <div class="item-info">
-                        <span class="item-number">#${index + 1}</span>
-                        <span class="item-caption">${fotka.popisek || 'Bez popisku'}</span>
+                        <div class="item-meta">
+                            <span class="item-number">#${index + 1}</span>
+                            <span>${datumText}</span>
+                        </div>
+                        ${fotka.popisek ? `<div class="item-caption">${fotka.popisek}</div>` : ''}
                     </div>
                 `;
                 grid.appendChild(polozka);
             });
 
-            // Ochrana: Pokud je lightbox otevřený a admin zrovna smaže fotku, přepočítáme zobrazení
+            // Automatická aktualizace pokud je zrovna otevřený Lightbox a admin něco smaže
             if (document.getElementById('lightbox').style.display === 'flex') {
                 if (aktualniIndex >= fotkyPole.length) {
                     aktualniIndex = fotkyPole.length - 1;
@@ -153,11 +163,11 @@
             }
         });
 
-        // Ovládání a logika Lightboxu
+        // Logika a ovládání náhledu (Lightbox)
         window.otevriLightbox = function(index) {
             aktualniIndex = index;
             document.getElementById('lightbox').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Zamezí scrollování stránky v pozadí
+            document.body.style.overflow = 'hidden';
             aktualizujLightbox();
         }
 
@@ -170,39 +180,61 @@
             const fotka = fotkyPole[aktualniIndex];
             if (!fotka) return;
             
+            const datumText = fotka.vytvoreno ? new Date(fotka.vytvoreno).toLocaleDateString('cs-CZ') : '';
+            
             document.getElementById('lightboxImg').src = fotka.url;
             document.getElementById('lightboxPopisek').innerText = fotka.popisek || '';
+            document.getElementById('lightboxDatum').innerText = datumText ? `Nahráno: ${datumText}` : '';
             document.getElementById('lightboxCislo').innerText = `${aktualniIndex + 1} / ${fotkyPole.length}`;
         }
 
         window.dalsiFotka = function() {
             if (fotkyPole.length === 0) return;
-            aktualniIndex = (aktualniIndex + 1) % fotkyPole.length; // Po poslední skočí na první
+            aktualniIndex = (aktualniIndex + 1) % fotkyPole.length;
             aktualizujLightbox();
         }
 
         window.predchoziFotka = function() {
             if (fotkyPole.length === 0) return;
-            aktualniIndex = (aktualniIndex - 1 + fotkyPole.length) % fotkyPole.length; // Z první skočí na poslední
+            aktualniIndex = (aktualniIndex - 1 + fotkyPole.length) % fotkyPole.length;
             aktualizujLightbox();
         }
 
-        // Ovládání klávesovými šipkami a klávesou ESC
+        // Klávesnice na PC (šipky + ESC)
         window.addEventListener('keydown', (e) => {
             if (document.getElementById('lightbox').style.display !== 'flex') return;
-            
-            if (e.key === 'ArrowRight') {
-                dalsiFotka();
-            } else if (e.key === 'ArrowLeft') {
-                predchoziFotka();
-            } else if (e.key === 'Escape') {
-                zavriLightbox();
-            }
+            if (e.key === 'ArrowRight') dalsiFotka();
+            else if (e.key === 'ArrowLeft') predchoziFotka();
+            else if (e.key === 'Escape') zavriLightbox();
         });
 
-        // Zavření kliknutím na černé pozadí mimo fotku a ovládací prvky
-        document.getElementById('lightbox').addEventListener('click', (e) => {
-            if (e.target.id === 'lightbox') {
+        // DOTYKOVÁ GESTA PRO MOBILY (Swipe / Přetáhnutí prstem)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const lightboxElement = document.getElementById('lightbox');
+
+        lightboxElement.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        lightboxElement.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const rozdil = touchStartX - touchEndX;
+            // Pokud uživatel přejede prstem dostatečně daleko (aspoň 50px)
+            if (rozdil > 50) {
+                dalsiFotka(); // Potáhnutí doleva -> další fotka
+            } else if (rozdil < -50) {
+                predchoziFotka(); // Potáhnutí doprava -> předchozí fotka
+            }
+        }
+
+        // Zavření kliknutím na prázdné pozadí na PC
+        lightboxElement.addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox' || e.target.className === 'lightbox-content') {
                 zavriLightbox();
             }
         });
