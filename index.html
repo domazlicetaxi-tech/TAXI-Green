@@ -33,13 +33,28 @@
         
         /* ÚPRAVA PRO MOBILNÍ TELEFONY */
         @media (max-width: 768px) {
+            body, html { overflow-y: auto; height: auto; min-height: 100%; }
+            .taxi-header { height: auto; min-height: 100vh; }
             .top-left-container { top: 10px; left: 10px; } .top-right-container { top: 10px; right: 10px; }
             .top-btn { transform: scale(0.6); }
             .top-left-container .top-btn { transform-origin: top left; } .top-right-container .top-btn { transform-origin: top right; }
             .top-btn:hover, .top-btn:active { transform: scale(1.1); z-index: 1000; }
             
-            /* Tlačítka si zachovají původní styl/velikost, ale celý blok skočí výše nad lištu */
-            .buttons-container { bottom: 110px; gap: 12px; padding: 0 10px; box-sizing: border-box; } 
+            /* Tlačítka odskočí pod logo a přizpůsobí se plynule šířce displeje */
+            .buttons-container { 
+                position: relative; 
+                bottom: auto; 
+                margin-top: 42vh; 
+                gap: 10px; 
+                padding: 0 12px 40px 12px; 
+                box-sizing: border-box; 
+            } 
+            /* Výpočet zajistí přesně 4 tlačítka v řadě na jakémkoliv telefonu a zachová kruh */
+            .menu-btn { 
+                width: calc(25% - 10px); 
+                height: auto; 
+                aspect-ratio: 1 / 1; 
+            }
         }
     </style>
 </head>
