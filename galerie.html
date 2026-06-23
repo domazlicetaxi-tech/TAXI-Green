@@ -8,37 +8,20 @@
     <style>
         body { margin: 0; padding: 20px; font-family: sans-serif; background-color: #111; color: #fff; }
         .back-btn { display: inline-block; padding: 12px 24px; background: #27ae60; color: #fff; text-decoration: none; border-radius: 6px; font-weight: bold; margin-bottom: 20px; }
-        
         #loading { text-align: center; margin-top: 50px; font-size: 20px; color: #27ae60; font-weight: bold; }
-        .error-msg { color: #e74c3c; background: #333; padding: 15px; border-radius: 8px; text-align: center; line-height: 1.5; }
-
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .gallery-item { position: relative; background: #222; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
-        .gallery-item img { width: 100%; height: 200px; object-fit: cover; border-radius: 6px; transition: opacity 0.2s; }
-        .gallery-item img:hover { opacity: 0.9; }
-        
-        .item-info { margin-top: 10px; font-size: 14px; }
-        .item-number { color: #27ae60; font-weight: bold; margin-right: 5px; }
-        .item-text { color: #ddd; }
-
-        .delete-btn { 
-            position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; 
-            border: none; border-radius: 50%; width: 32px; height: 32px; font-weight: bold; 
-            cursor: pointer; display: none; box-shadow: 0 2px 5px rgba(0,0,0,0.5); z-index: 5;
-        }
+        .gallery-item { position: relative; background: #222; padding: 10px; border-radius: 8px; }
+        .gallery-item img { width: 100%; height: 200px; object-fit: cover; border-radius: 6px; }
     </style>
 </head>
 <body>
-
     <a href="index.html" class="back-btn">⬅ Zpět na úvod</a>
-
     <div id="loading">⏳ Načítám fotografie...</div>
     <div class="gallery-grid" id="pswp-gallery"></div>
 
     <script type="module">
-        import PhotoSwipeLightbox from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe-lightbox.esm.min.js';
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyADi4Varza6j_uS8JBMYp9JIwiENIx4_L4", 
@@ -51,64 +34,28 @@
         
         const galleryContainer = document.getElementById('pswp-gallery');
         const loadingDiv = document.getElementById('loading');
-        let lightbox = null;
 
-        const isAdmin = localStorage.getItem('taxiAdmin') === 'true';
-
-        // Naslouchání změnám v databázi s ošetřením chyb
+        // Načtení dat
         onValue(ref(db, 'fotogalerie'), (snapshot) => {
-            loadingDiv.style.display = 'none'; // Skryje nápis načítání
+            loadingDiv.style.display = 'none';
             const data = snapshot.val();
             
-            galleryContainer.innerHTML = "";
-            
             if (!data) {
-                galleryContainer.innerHTML = "<div style='text-align:center; width:100%; color:#888;'>Zatím zde nejsou žádné fotografie.</div>";
+                galleryContainer.innerHTML = "<p style='text-align:center;'>Zatím zde nejsou žádné fotografie.</p>";
                 return;
             }
 
-            const fotkyPole = Object.keys(data).map(key => ({ id: key, ...data[key] }));
-            fotkyPole.sort((a, b) => (b.vytvoreno || 0) - (a.vytvoreno || 0));
-
-            fotkyPole.forEach((foto, index) => {
-                const cisloFotky = index + 1;
+            galleryContainer.innerHTML = "";
+            Object.values(data).forEach((foto) => {
                 galleryContainer.innerHTML += `
                     <div class="gallery-item">
-                        <a href="${foto.url}" data-pswp-width="1200" data-pswp-height="900" target="_blank">
-                            <img src="${foto.url}" alt="${foto.popisek || 'Foto'}">
-                        </a>
-                        <div class="item-info">
-                            <span class="item-number">#${cisloFotky}</span>
-                            <span class="item-text">${foto.popisek || ''}</span>
-                        </div>
-                        <button class="delete-btn" style="display: ${isAdmin ? 'block' : 'none'}" onclick="smazFotku('${foto.id}')">X</button>
+                        <img src="${foto.url}" alt="Taxi foto">
+                        <p style="font-size:12px; margin-top:5px;">${foto.popisek || ''}</p>
                     </div>`;
             });
-
-            if (lightbox) { lightbox.destroy(); }
-            lightbox = new PhotoSwipeLightbox({
-                gallery: '#pswp-gallery',
-                children: 'a',
-                pswpModule: () => import('https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.esm.min.js')
-            });
-            lightbox.init();
-
         }, (error) => {
-            // Pokud spojení odmítne Firebase (např. kvůli oprávněním)
-            loadingDiv.style.display = 'none';
-            galleryContainer.innerHTML = `
-                <div class="error-msg">
-                    <h3>❌ Chyba připojení k databázi</h3>
-                    <p>Firebase zablokoval přístup. Přejdi do svého Firebase účtu -> <b>Realtime Database</b> -> záložka <b>Rules</b> a zkontroluj, zda máš povoleno čtení a zápis (true).</p>
-                    <small>Kód chyby: ${error.message}</small>
-                </div>`;
+            loadingDiv.innerText = "❌ Chyba: " + error.message;
         });
-
-        window.smazFotku = (id) => {
-            if(confirm("Opravdu chcete smazat tuto fotografii?")) {
-                remove(ref(db, 'fotogalerie/' + id));
-            }
-        };
     </script>
 </body>
 </html>
