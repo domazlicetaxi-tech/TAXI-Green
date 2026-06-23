@@ -4,75 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galerie - Taxi Green Domažlice</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.min.css">
     <style>
         body { margin: 0; padding: 20px; font-family: sans-serif; background-color: #111; color: #fff; }
         .back-btn { display: inline-block; padding: 10px 20px; background: #333; color: #fff; text-decoration: none; border-radius: 6px; }
-        
-        /* Styl galerie */
-        .swiper { width: 100%; max-width: 800px; height: 500px; margin-top: 20px; }
-        .swiper-slide { position: relative; display: flex; align-items: center; justify-content: center; background: #000; }
-        .swiper-slide img { max-width: 100%; max-height: 100%; object-fit: contain; cursor: pointer; }
-        
-        /* Tlačítko mazání */
-        .delete-btn { 
-            position: absolute; top: 10px; right: 10px; background: red; color: white; 
-            padding: 10px; border-radius: 50%; cursor: pointer; border: none; z-index: 10; display: none; 
-        }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .gallery-item { position: relative; cursor: pointer; }
+        .gallery-item img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; }
+        .item-info { font-size: 12px; margin-top: 5px; color: #aaa; }
+        .delete-btn { position: absolute; top: 5px; right: 5px; background: red; border: none; color: white; border-radius: 50%; width: 25px; height: 25px; display: none; }
     </style>
 </head>
 <body>
 
     <a href="index.html" class="back-btn">⬅ Zpět</a>
-    <div id="adminLogin" style="margin-top:10px;">
+    <div style="margin: 15px 0;">
         <input type="password" id="adminPass" placeholder="Heslo pro správu">
         <button onclick="checkAdmin()">Ověřit</button>
     </div>
 
-    <div class="swiper">
-        <div class="swiper-wrapper" id="galerieSwiper"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-    </div>
+    <div class="gallery-grid" id="pswp-gallery"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="module">
+        import PhotoSwipeLightbox from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe-lightbox.esm.min.js';
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-        const firebaseConfig = { /* tvoje data */ };
+        const firebaseConfig = { /* VLOŽ SVŮJ CONFIG Z INDEX.HTML */ };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const swiperWrapper = document.getElementById('galerieSwiper');
+        const gallery = document.getElementById('pswp-gallery');
+
         let isAdmin = false;
+        window.checkAdmin = () => { if(document.getElementById('adminPass').value === "26 36 54") isAdmin = true; render(); };
 
-        window.checkAdmin = () => {
-            if(document.getElementById('adminPass').value === "26 36 54") {
-                isAdmin = true;
-                document.querySelectorAll('.delete-btn').forEach(b => b.style.display = 'block');
-                alert("Jsi přihlášen jako správce - nyní můžeš mazat!");
-            }
-        };
-
-        window.smazFotku = (key) => {
-            if(confirm("Opravdu smazat tuto fotku?")) {
-                remove(ref(db, 'fotogalerie/' + key));
-            }
-        };
-
-        onValue(ref(db, 'fotogalerie'), (snapshot) => {
-            const data = snapshot.val() || {};
-            swiperWrapper.innerHTML = "";
-            Object.keys(data).forEach(key => {
-                const f = data[key];
-                swiperWrapper.innerHTML += `
-                    <div class="swiper-slide">
-                        <img src="${f.url}" onclick="window.open('${f.url}', '_blank')">
-                        <button class="delete-btn" style="display:${isAdmin?'block':'none'}" onclick="smazFotku('${key}')">X</button>
-                    </div>`;
+        function render() {
+            onValue(ref(db, 'fotogalerie'), (snapshot) => {
+                const data = snapshot.val() || {};
+                gallery.innerHTML = "";
+                let i = 1;
+                Object.keys(data).forEach(key => {
+                    const f = data[key];
+                    gallery.innerHTML += `
+                        <div class="gallery-item">
+                            <a href="${f.url}" data-pswp-width="1200" data-pswp-height="800" target="_blank">
+                                <img src="${f.url}" alt="Foto ${i}">
+                            </a>
+                            <div class="item-info">Foto č. ${i}</div>
+                            <button class="delete-btn" style="display:${isAdmin?'block':'none'}" onclick="smaz('${key}')">X</button>
+                        </div>`;
+                    i++;
+                });
+                new PhotoSwipeLightbox({ gallery: '#pswp-gallery', children: 'a', pswpModule: () => import('https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.esm.min.js') }).init();
             });
-            new Swiper('.swiper', { navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }, loop: true });
-        });
+        }
+        window.smaz = (key) => { if(confirm("Smazat?")) remove(ref(db, 'fotogalerie/' + key)); };
+        render();
     </script>
 </body>
 </html>
